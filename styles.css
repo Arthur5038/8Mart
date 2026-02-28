@@ -554,11 +554,12 @@ body.overlay-open {
 .low-overlay {
   position: fixed;
   inset: 0;
-  z-index: 40;
+  z-index: 9999;
   background: rgba(3, 13, 35, 0.78);
   display: grid;
   place-items: center;
   padding: 20px;
+  pointer-events: auto;
 }
 
 .low-overlay-card {
@@ -573,6 +574,9 @@ body.overlay-open {
   display: grid;
   gap: 14px;
   text-align: center;
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
 }
 
 .low-overlay-card h3 {

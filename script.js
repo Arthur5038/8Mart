@@ -229,6 +229,7 @@ let infinityAdvanceTimeout = null;
 let dragPayload = null;
 let phrasePointerDrag = null;
 let infinityPointerDrag = null;
+let lowOverlayReturnFocusEl = null;
 
 let state = loadState() || createInitialState();
 
@@ -1465,27 +1466,33 @@ function evaluateStep(step, userData) {
 }
 
 function showLowValueOverlay() {
+  if (document.getElementById('lowValueOverlay')) return;
+
+  lowOverlayReturnFocusEl = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
   const overlay = ensureLowValueOverlay();
-  overlay.hidden = false;
+  document.body.appendChild(overlay);
   document.body.classList.add('overlay-open');
+  document.addEventListener('keydown', onLowOverlayKeydown);
+
+  const okBtn = overlay.querySelector('[data-action="close-low-overlay"]');
+  if (okBtn instanceof HTMLElement) okBtn.focus();
 }
 
 function hideLowValueOverlay() {
   const overlay = document.getElementById('lowValueOverlay');
   if (!overlay) return;
 
-  overlay.hidden = true;
+  overlay.remove();
   document.body.classList.remove('overlay-open');
+  document.removeEventListener('keydown', onLowOverlayKeydown);
+  restoreFocusAfterOverlay();
 }
 
 function ensureLowValueOverlay() {
-  let overlay = document.getElementById('lowValueOverlay');
-  if (overlay) return overlay;
-
-  overlay = document.createElement('div');
+  const overlay = document.createElement('div');
   overlay.id = 'lowValueOverlay';
   overlay.className = 'low-overlay';
-  overlay.hidden = true;
   overlay.innerHTML = `
     <div class="low-overlay-card" role="dialog" aria-modal="true" aria-labelledby="lowOverlayTitle">
       <h3 id="lowOverlayTitle">А почему так мало? Нет, подумай ещё раз</h3>
@@ -1493,20 +1500,40 @@ function ensureLowValueOverlay() {
     </div>
   `;
 
-  overlay.addEventListener('click', (event) => {
-    const closeBtn = event.target.closest('[data-action=\"close-low-overlay\"]');
-    if (closeBtn) {
-      hideLowValueOverlay();
-      return;
-    }
+  const closeBtn = overlay.querySelector('[data-action="close-low-overlay"]');
+  if (closeBtn instanceof HTMLElement) {
+    closeBtn.addEventListener('click', hideLowValueOverlay, { passive: true });
+  }
 
+  overlay.addEventListener('click', (event) => {
     if (event.target === overlay) {
       hideLowValueOverlay();
     }
   });
 
-  document.body.appendChild(overlay);
   return overlay;
+}
+
+function onLowOverlayKeydown(event) {
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    hideLowValueOverlay();
+  }
+}
+
+function restoreFocusAfterOverlay() {
+  if (lowOverlayReturnFocusEl && document.contains(lowOverlayReturnFocusEl) && !lowOverlayReturnFocusEl.hasAttribute('disabled')) {
+    lowOverlayReturnFocusEl.focus();
+    lowOverlayReturnFocusEl = null;
+    return;
+  }
+
+  const fallback = ui.stage.querySelector('.infinity-track, [data-action="check"]');
+  if (fallback instanceof HTMLElement) {
+    fallback.focus();
+  }
+
+  lowOverlayReturnFocusEl = null;
 }
 
 function launchConfetti() {
