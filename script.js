@@ -1,233 +1,292 @@
 'use strict';
 
 const STORAGE_KEY = 'quest_8mart_v1';
-const SCORE_VALUES = [0, 5, 10];
-const STEP_COUNT = 10;
+const SCORE_SET = [0, 5, 10];
 
-const QUEST_STEPS = [
+const steps = [
   {
-    id: 'step1_hotspot',
+    id: 'hotspot_secret_kiss',
     type: 'hotspot',
-    title: 'STEP_TITLE_1',
-    text: 'STEP_TEXT_1',
-    hint: 'HINT_1',
-    media: 'assets/photo1.jpg',
-    correctAnswers: { x: 68, y: 42 },
-    partialRules: { fullRadius: 10, partialRadius: 20 },
-    pointsLogic: { full: 10, partial: 5, wrong: 0 },
-    ui: {
-      prompt: 'Отметьте точку на фото: можно кликнуть по изображению или выставить координаты ползунками.'
+    title: 'Шаг 1. Карта к поцелую (ультра секрет)',
+    text: 'Алина, представь: это фото нас, которое я еще не добавил. Нажми в то место, где я обычно зависаю взглядом перед тем, как украсть поцелуй.',
+    hint: 'Я всегда немного правее центра и чуть выше, как будто выбираю угол атаки романтики.',
+    scoring: { full: 10, partial: 5, wrong: 0 },
+    correct: {
+      zone: { x: 58, y: 38, w: 16, h: 18 }
+    },
+    partialRules: {
+      expandPxPercent: 8
+    },
+    uiOptions: {
+      placeholderTitle: 'Зона нежности',
+      placeholderSubtitle: 'Фото добавим позже',
+      helper: 'Клик по карточке или выстави координаты X/Y ползунками.'
     }
   },
   {
-    id: 'step2_number',
+    id: 'months_together',
     type: 'number',
-    title: 'STEP_TITLE_2',
-    text: 'STEP_TEXT_2',
-    hint: 'HINT_2',
-    media: 'assets/photo2.jpg',
-    correctAnswers: { exact: 42 },
-    partialRules: { min: 39, max: 45 },
-    pointsLogic: { full: 10, partial: 5, wrong: 0 },
-    ui: {
-      label: 'Введите число:'
+    title: 'Шаг 2. Арифметика любви',
+    text: 'Сколько месяцев мы вместе на 8 марта 2026, если август считается? Не торопись, калькулятор в голове тоже sexy.',
+    hint: 'Ответ рядом с числом 32. Прям очень рядом.',
+    scoring: { full: 10, partial: 5, wrong: 0 },
+    correct: {
+      value: 32
+    },
+    partialRules: {
+      min: 31,
+      max: 33
+    },
+    uiOptions: {
+      label: 'Введи количество месяцев:'
     }
   },
   {
-    id: 'step3_text',
+    id: 'code_phrase',
     type: 'text',
-    title: 'STEP_TITLE_3',
-    text: 'STEP_TEXT_3',
-    hint: 'HINT_3',
-    media: 'assets/photo3.jpg',
-    correctAnswers: ['весна', 'весна пришла'],
-    partialRules: { acceptedFragments: ['март', 'цвет', 'тепло'] },
-    pointsLogic: { full: 10, partial: 5, wrong: 0 },
-    ui: {
-      label: 'Введите слово или фразу:'
+    title: 'Шаг 3. Наш шифр от скуки',
+    text: 'Введи наше кодовое словечко/фразу. То самое, после которого у меня лицо дурачка и желание срочно тебя обнять.',
+    hint: 'Ключевой корень: булоч. Да, ты официально слишком вкусная для моего самоконтроля.',
+    scoring: { full: 10, partial: 5, wrong: 0 },
+    correct: {
+      answers: [
+        'моя булочка',
+        'булочка',
+        'булочка с корицей',
+        'моя булочка с корицей',
+        'алина булочка'
+      ]
+    },
+    partialRules: {
+      roots: ['булоч', 'кориц', 'сладк']
+    },
+    uiOptions: {
+      label: 'Введи кодовую фразу:'
     }
   },
   {
-    id: 'step4_choice3',
+    id: 'choice_funny_love',
     type: 'choice3',
-    title: 'STEP_TITLE_4',
-    text: 'STEP_TEXT_4',
-    hint: 'HINT_4',
-    media: 'assets/photo4.jpg',
-    correctAnswers: { correct: 'b', partial: 'c' },
-    partialRules: { partialOption: 'c' },
-    pointsLogic: { full: 10, partial: 5, wrong: 0 },
-    ui: {
-      question: 'Выберите один вариант:',
+    title: 'Шаг 4. Что я в тебе люблю больше всего (шутка, но не совсем)',
+    text: 'Выбери один вариант. Это тест, где любой ответ милый, но один особенно преступно правдивый.',
+    hint: 'Я таю от твоего мозга и от того, как ты меня красиво ставишь на место.',
+    scoring: { full: 10, partial: 5, wrong: 0 },
+    correct: {
+      value: 'mind'
+    },
+    partialRules: {
+      partialValue: 'eyes'
+    },
+    uiOptions: {
       options: [
-        { value: 'a', label: 'Вариант A' },
-        { value: 'b', label: 'Вариант B' },
-        { value: 'c', label: 'Вариант C' }
+        { value: 'eyes', label: 'Твои глаза (и как они смотрят, когда я туплю)' },
+        { value: 'chaos', label: 'Твою способность быть хаосом в пижаме' },
+        { value: 'mind', label: 'Твой ум + характер: умно, дерзко, смертельно для моего спокойствия' }
       ]
     }
   },
   {
-    id: 'step5_puzzle',
-    type: 'puzzle',
-    title: 'STEP_TITLE_5',
-    text: 'STEP_TEXT_5',
-    hint: 'HINT_5',
-    media: 'assets/photo5.jpg',
-    correctAnswers: { order: [0, 1, 2, 3] },
-    partialRules: { minCorrectPositions: 2 },
-    pointsLogic: { full: 10, partial: 5, wrong: 0 },
-    ui: {
-      tiles: [
-        { id: 0, label: 'Фрагмент 1' },
-        { id: 1, label: 'Фрагмент 2' },
-        { id: 2, label: 'Фрагмент 3' },
-        { id: 3, label: 'Фрагмент 4' }
+    id: 'drag_phrase',
+    type: 'phrase_dnd',
+    title: 'Шаг 5. Собери фразу Артура',
+    text: 'Перетащи слова в правильном порядке. Это мой официальный приговор твоей красоте.',
+    hint: 'Начинается с «Алина», заканчивается «мурашек».',
+    scoring: { full: 10, partial: 5, wrong: 0 },
+    correct: {
+      order: [0, 1, 2, 3, 4, 5, 6]
+    },
+    partialRules: {
+      minCorrectPositions: 5
+    },
+    uiOptions: {
+      words: ['Алина,', 'ты', 'моя', 'любимая', 'причина', 'улыбки', 'и мурашек']
+    }
+  },
+  {
+    id: 'select_two_cards',
+    type: 'select_2_of_4',
+    title: 'Шаг 6. Выбери 2 идеальных кадра свидания',
+    text: 'Фото еще не готовы, поэтому карточки-заглушки. Отметь два кадра, которые я бы выбрал для нашего мини-фильма.',
+    hint: 'Там, где уют и киношная романтика, а не мой позорный танец.',
+    scoring: { full: 10, partial: 5, wrong: 0 },
+    correct: {
+      ids: ['candles', 'movie']
+    },
+    partialRules: {
+      requiredCount: 2
+    },
+    uiOptions: {
+      cards: [
+        { id: 'candles', title: 'Кадр A: свечи + плед', subtitle: 'Фото добавим позже' },
+        { id: 'gym', title: 'Кадр B: я в спортзале и грущу', subtitle: 'Фото добавим позже' },
+        { id: 'movie', title: 'Кадр C: кино + ты у меня на плече', subtitle: 'Фото добавим позже' },
+        { id: 'tax', title: 'Кадр D: я плачу налоги', subtitle: 'Фото добавим позже' }
       ]
     }
   },
   {
-    id: 'step6_reorder',
-    type: 'reorder',
-    title: 'STEP_TITLE_6',
-    text: 'STEP_TEXT_6',
-    hint: 'HINT_6',
-    media: 'assets/photo6.jpg',
-    correctAnswers: { order: [0, 1, 2, 3] },
-    partialRules: { minCorrectPositions: 2 },
-    pointsLogic: { full: 10, partial: 5, wrong: 0 },
-    ui: {
-      events: [
-        'Событие 1',
-        'Событие 2',
-        'Событие 3',
-        'Событие 4'
+    id: 'timeline_reorder',
+    type: 'reorder_4',
+    title: 'Шаг 7. Хронология наших мемов',
+    text: 'Расположи 4 события по времени. Если ошибешься, ничего страшного: в любви важнее вайб, чем архив.',
+    hint: 'Сначала знакомство, потом первый cringe-мем, дальше первое свидание, потом наш режим «мы странные и счастливые».',
+    scoring: { full: 10, partial: 5, wrong: 0 },
+    correct: {
+      order: [0, 1, 2, 3]
+    },
+    partialRules: {
+      minCorrectPositions: 2
+    },
+    uiOptions: {
+      items: [
+        'Мы познакомились',
+        'Первый общий мем уровня «что это было»',
+        'Первое свидание',
+        'Режим «моя любимая женщина + мой лучший друг в одном лице»'
       ]
     }
   },
   {
-    id: 'step7_word_tiles',
-    type: 'wordTiles',
-    title: 'STEP_TITLE_7',
-    text: 'STEP_TEXT_7',
-    hint: 'HINT_7',
-    media: '',
-    correctAnswers: { order: [0, 1, 2, 3, 4] },
-    partialRules: { maxWrongPositions: 2 },
-    pointsLogic: { full: 10, partial: 5, wrong: 0 },
-    ui: {
-      words: ['С', 'праздником', 'весны', 'и', 'красоты']
+    id: 'memory_pairs',
+    type: 'memory_6',
+    title: 'Шаг 8. Память сердца (и нервов)',
+    text: 'Открой все пары из 6 карточек. Это как отношения: главное — не паниковать после второго промаха.',
+    hint: 'Если увидела символ, попробуй сразу запомнить его соседей по прошлым фейлам.',
+    scoring: { full: 10, partial: 5, wrong: 0 },
+    correct: {
+      totalPairs: 3
+    },
+    partialRules: {
+      fullMaxMisses: 4,
+      partialMinPairs: 2
+    },
+    uiOptions: {
+      pairs: [
+        { id: 'hug', label: 'Объятия' },
+        { id: 'kiss', label: 'Поцелуй' },
+        { id: 'laugh', label: 'Смех' }
+      ]
     }
   },
   {
-    id: 'step8_memory',
-    type: 'memory6',
-    title: 'STEP_TITLE_8',
-    text: 'STEP_TEXT_8',
-    hint: 'HINT_8',
-    media: '',
-    correctAnswers: { pairs: 3 },
-    partialRules: { maxMissesForFull: 3 },
-    pointsLogic: { full: 10, partial: 5, wrong: 0 },
-    ui: {
-      pairLabels: {
-        tulip: 'Тюльпан',
-        gift: 'Подарок',
-        card: 'Открытка'
-      },
-      pairKeys: ['tulip', 'gift', 'card']
-    }
-  },
-  {
-    id: 'step9_range',
+    id: 'range_missing',
     type: 'range',
-    title: 'STEP_TITLE_9',
-    text: 'STEP_TEXT_9',
-    hint: 'HINT_9',
-    media: '',
-    correctAnswers: { target: 73 },
-    partialRules: { fullTolerance: 2, partialTolerance: 8 },
-    pointsLogic: { full: 10, partial: 5, wrong: 0 },
-    ui: {
+    title: 'Шаг 9. Индекс скучаю по Алине',
+    text: 'От 0 до 100: насколько я скучаю по тебе, если мы не виделись ровно день?',
+    hint: 'Это число настолько большое, что выглядит как признание в любви с перегревом.',
+    scoring: { full: 10, partial: 5, wrong: 0 },
+    correct: {
+      value: 97
+    },
+    partialRules: {
+      fullTolerance: 2,
+      partialTolerance: 7
+    },
+    uiOptions: {
       min: 0,
       max: 100,
       step: 1,
-      start: 50,
-      label: 'Выберите значение:'
+      start: 50
     }
   },
   {
-    id: 'step10_yesno',
-    type: 'yesno',
-    title: 'STEP_TITLE_10',
-    text: 'STEP_TEXT_10',
-    hint: 'HINT_10',
-    media: '',
-    correctAnswers: { value: 'yes' },
-    partialRules: {},
-    pointsLogic: { full: 10, partial: 0, wrong: 0 },
-    ui: {
-      question: 'Ответьте Да или Нет:'
+    id: 'choose_two_truths',
+    type: 'choose_2_of_4',
+    title: 'Шаг 10. Две правды про Артура',
+    text: 'Выбери 2 правдивых утверждения. Остальные — художественный бред, но почти похожий на меня.',
+    hint: 'Правда там, где я мягкий к тебе и где WhatsApp у нас как отдельный язык.',
+    scoring: { full: 10, partial: 5, wrong: 0 },
+    correct: {
+      ids: ['soft', 'wa']
+    },
+    partialRules: {
+      requiredCount: 2
+    },
+    uiOptions: {
+      options: [
+        { id: 'soft', text: 'С тобой я становлюсь мягче и добрее, даже когда ворчу' },
+        { id: 'night', text: 'Я ложусь спать строго в 22:00 и никогда не залипаю в чат' },
+        { id: 'wa', text: 'Я перечитываю наши WhatsApp-переписки, когда скучаю' },
+        { id: 'cold', text: 'Я полностью равнодушен к твоим объятиям (очевидная ложь)' }
+      ]
     }
   }
 ];
 
-const stepCounterEl = document.getElementById('stepCounter');
-const scoreCounterEl = document.getElementById('scoreCounter');
-const progressFillEl = document.getElementById('progressFill');
-const stageEl = document.getElementById('stage');
-const backBtn = document.getElementById('backBtn');
-const nextBtn = document.getElementById('nextBtn');
-const navPanel = document.getElementById('navPanel');
-const liveRegion = document.getElementById('liveRegion');
-const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-let memoryFlipTimeout = null;
-const dragState = {
-  mode: null,
-  tileId: null,
-  sourceSlot: null,
-  reorderItemId: null
+const ui = {
+  stage: document.getElementById('stage'),
+  stepLabel: document.getElementById('stepLabel'),
+  scoreLabel: document.getElementById('scoreLabel'),
+  progressBar: document.getElementById('progressBar'),
+  progressWrap: document.querySelector('.progress'),
+  backBtn: document.getElementById('backBtn'),
+  nextBtn: document.getElementById('nextBtn'),
+  navigation: document.getElementById('navigation'),
+  live: document.getElementById('srLive')
 };
 
-let appState = loadState();
-if (!appState) {
-  appState = createInitialState();
-}
+let memoryTimeout = null;
+let dragPayload = null;
 
-bindGlobalEvents();
-renderApp(false);
+let state = loadState() || createInitialState();
 
-function bindGlobalEvents() {
-  backBtn.addEventListener('click', () => navigate(-1));
-  nextBtn.addEventListener('click', () => navigate(1));
+bindEvents();
+render(false);
 
-  stageEl.addEventListener('click', handleStageClick);
-  stageEl.addEventListener('input', handleStageInput);
-  stageEl.addEventListener('change', handleStageChange);
-  stageEl.addEventListener('keydown', handleStageKeydown);
+function bindEvents() {
+  ui.backBtn.addEventListener('click', () => {
+    if (state.currentStep > 0) {
+      state.currentStep -= 1;
+      saveState();
+      render(true);
+      announce(`Шаг ${state.currentStep + 1}`);
+    }
+  });
 
-  stageEl.addEventListener('dragstart', handleStageDragStart);
-  stageEl.addEventListener('dragover', handleStageDragOver);
-  stageEl.addEventListener('drop', handleStageDrop);
+  ui.nextBtn.addEventListener('click', () => {
+    if (state.completed) return;
+
+    const current = state.stepStates[state.currentStep];
+    if (!current.attempted) return;
+
+    if (state.currentStep === steps.length - 1) {
+      state.completed = true;
+      saveState();
+      render(true);
+      announce('Все шаги завершены. Показан финальный код.');
+      return;
+    }
+
+    state.currentStep += 1;
+    saveState();
+    render(true);
+    announce(`Шаг ${state.currentStep + 1}`);
+  });
+
+  ui.stage.addEventListener('click', onStageClick);
+  ui.stage.addEventListener('input', onStageInput);
+  ui.stage.addEventListener('change', onStageChange);
+  ui.stage.addEventListener('keydown', onStageKeydown);
+  ui.stage.addEventListener('dragstart', onStageDragStart);
+  ui.stage.addEventListener('dragover', onStageDragOver);
+  ui.stage.addEventListener('drop', onStageDrop);
 }
 
 function createInitialState() {
   return {
     currentStep: 0,
-    stepResults: QUEST_STEPS.map((step) => ({
+    completed: false,
+    stepStates: steps.map((step) => ({
       attempted: false,
       bestScore: 0,
       lastScore: null,
-      locked: false,
-      hintOpened: false,
-      answerSnapshot: getDefaultSnapshot(step)
-    })),
-    totalScore: 0,
-    completed: false
+      hintOpen: false,
+      userData: defaultUserData(step)
+    }))
   };
 }
 
-function getDefaultSnapshot(step) {
+function defaultUserData(step) {
   switch (step.type) {
     case 'hotspot':
       return { x: null, y: null };
@@ -237,26 +296,26 @@ function getDefaultSnapshot(step) {
       return { value: '' };
     case 'choice3':
       return { value: '' };
-    case 'puzzle':
-      return { slots: [null, null, null, null], selectedTile: null };
-    case 'reorder':
-      return { order: step.ui.events.map((_, index) => index) };
-    case 'wordTiles':
-      return { answer: [] };
-    case 'memory6': {
-      const keys = step.ui.pairKeys.flatMap((key) => [key, key]);
+    case 'phrase_dnd':
+      return { order: shuffledIndices(step.uiOptions.words.length) };
+    case 'select_2_of_4':
+      return { selected: [] };
+    case 'reorder_4':
+      return { order: shuffledIndices(step.uiOptions.items.length) };
+    case 'memory_6': {
+      const deck = step.uiOptions.pairs.flatMap((pair) => [pair.id, pair.id]);
       return {
-        cards: shuffle(keys),
+        deck: shuffle(deck),
+        revealed: [],
         matched: [],
-        open: [],
         misses: 0,
         busy: false
       };
     }
     case 'range':
-      return { value: step.ui.start };
-    case 'yesno':
-      return { value: '' };
+      return { value: step.uiOptions.start };
+    case 'choose_2_of_4':
+      return { selected: [] };
     default:
       return {};
   }
@@ -265,928 +324,793 @@ function getDefaultSnapshot(step) {
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      return null;
-    }
+    if (!raw) return null;
+
     const parsed = JSON.parse(raw);
-    return sanitizeState(parsed);
+    if (!parsed || typeof parsed !== 'object') return null;
+    if (!Array.isArray(parsed.stepStates) || parsed.stepStates.length !== steps.length) return null;
+
+    const initial = createInitialState();
+    const safe = {
+      currentStep: clampInt(parsed.currentStep ?? 0, 0, steps.length - 1),
+      completed: Boolean(parsed.completed),
+      stepStates: initial.stepStates
+    };
+
+    safe.stepStates = parsed.stepStates.map((item, index) => sanitizeStepState(item, steps[index]));
+
+    if (safe.completed) {
+      safe.currentStep = steps.length - 1;
+    }
+
+    return safe;
   } catch (error) {
     return null;
   }
 }
 
-function sanitizeState(rawState) {
-  if (!rawState || typeof rawState !== 'object') {
-    return null;
-  }
-
-  const initial = createInitialState();
-  const sanitized = {
-    currentStep: Number.isInteger(rawState.currentStep) ? rawState.currentStep : 0,
-    completed: Boolean(rawState.completed),
-    stepResults: initial.stepResults,
-    totalScore: 0
-  };
-
-  if (Array.isArray(rawState.stepResults) && rawState.stepResults.length === STEP_COUNT) {
-    sanitized.stepResults = rawState.stepResults.map((result, index) => sanitizeResult(result, QUEST_STEPS[index]));
-  }
-
-  sanitized.totalScore = computeTotalScore(sanitized.stepResults);
-
-  if (sanitized.completed) {
-    sanitized.currentStep = STEP_COUNT;
-  } else {
-    sanitized.currentStep = clampInt(sanitized.currentStep, 0, STEP_COUNT - 1);
-  }
-
-  return sanitized;
-}
-
-function sanitizeResult(rawResult, step) {
+function sanitizeStepState(rawState, step) {
   const defaults = {
     attempted: false,
     bestScore: 0,
     lastScore: null,
-    locked: false,
-    hintOpened: false,
-    answerSnapshot: getDefaultSnapshot(step)
+    hintOpen: false,
+    userData: defaultUserData(step)
   };
 
-  if (!rawResult || typeof rawResult !== 'object') {
+  if (!rawState || typeof rawState !== 'object') {
     return defaults;
   }
 
-  const bestScore = normalizeScore(rawResult.bestScore);
-  const lastScore = rawResult.lastScore === null ? null : normalizeScore(rawResult.lastScore);
-
   return {
-    attempted: Boolean(rawResult.attempted),
-    bestScore,
-    lastScore,
-    locked: Boolean(rawResult.locked),
-    hintOpened: Boolean(rawResult.hintOpened),
-    answerSnapshot: sanitizeSnapshot(step, rawResult.answerSnapshot)
+    attempted: Boolean(rawState.attempted),
+    bestScore: normalizeScore(rawState.bestScore),
+    lastScore: rawState.lastScore === null ? null : normalizeScore(rawState.lastScore),
+    hintOpen: Boolean(rawState.hintOpen),
+    userData: sanitizeUserData(step, rawState.userData)
   };
 }
 
-function sanitizeSnapshot(step, rawSnapshot) {
-  const defaults = getDefaultSnapshot(step);
-  const snapshot = rawSnapshot && typeof rawSnapshot === 'object' ? rawSnapshot : {};
+function sanitizeUserData(step, rawData) {
+  const base = defaultUserData(step);
+  const data = rawData && typeof rawData === 'object' ? rawData : {};
 
   switch (step.type) {
     case 'hotspot':
       return {
-        x: isFiniteNumber(snapshot.x) ? clamp(snapshot.x, 0, 100) : null,
-        y: isFiniteNumber(snapshot.y) ? clamp(snapshot.y, 0, 100) : null
+        x: Number.isFinite(data.x) ? clamp(data.x, 0, 100) : null,
+        y: Number.isFinite(data.y) ? clamp(data.y, 0, 100) : null
       };
-    case 'number':
-      return { value: typeof snapshot.value === 'string' || typeof snapshot.value === 'number' ? String(snapshot.value) : '' };
-    case 'text':
-      return { value: typeof snapshot.value === 'string' ? snapshot.value : '' };
-    case 'choice3':
-      return { value: typeof snapshot.value === 'string' ? snapshot.value : '' };
-    case 'puzzle': {
-      const slots = Array.isArray(snapshot.slots) && snapshot.slots.length === 4 ? snapshot.slots : defaults.slots;
-      const safeSlots = slots.map((value) => (Number.isInteger(value) ? value : null));
-      const selectedTile = Number.isInteger(snapshot.selectedTile) ? snapshot.selectedTile : null;
-      return { slots: safeSlots, selectedTile };
-    }
-    case 'reorder': {
-      const order = Array.isArray(snapshot.order) ? snapshot.order.filter(Number.isInteger) : defaults.order;
-      const expected = defaults.order;
-      return { order: normalizeOrdering(order, expected) };
-    }
-    case 'wordTiles':
-      return {
-        answer: Array.isArray(snapshot.answer) ? snapshot.answer.filter(Number.isInteger) : []
-      };
-    case 'memory6': {
-      const cards = Array.isArray(snapshot.cards) && snapshot.cards.length === 6 ? snapshot.cards : defaults.cards;
-      const matched = Array.isArray(snapshot.matched) ? uniqueInts(snapshot.matched, 0, 5) : [];
-      const open = Array.isArray(snapshot.open) ? uniqueInts(snapshot.open, 0, 5).slice(0, 2) : [];
-      return {
-        cards,
-        matched,
-        open,
-        misses: Number.isInteger(snapshot.misses) ? Math.max(0, snapshot.misses) : 0,
-        busy: Boolean(snapshot.busy)
-      };
-    }
-    case 'range':
-      return {
-        value: isFiniteNumber(snapshot.value) ? clamp(snapshot.value, step.ui.min, step.ui.max) : step.ui.start
-      };
-    case 'yesno':
-      return { value: snapshot.value === 'yes' || snapshot.value === 'no' ? snapshot.value : '' };
-    default:
-      return defaults;
-  }
-}
 
-function normalizeOrdering(order, expectedOrder) {
-  if (order.length !== expectedOrder.length) {
-    return [...expectedOrder];
-  }
-  const unique = Array.from(new Set(order));
-  if (unique.length !== expectedOrder.length) {
-    return [...expectedOrder];
-  }
-  for (const value of unique) {
-    if (!expectedOrder.includes(value)) {
-      return [...expectedOrder];
+    case 'number':
+      return { value: typeof data.value === 'string' || typeof data.value === 'number' ? String(data.value) : '' };
+
+    case 'text':
+      return { value: typeof data.value === 'string' ? data.value : '' };
+
+    case 'choice3':
+      return { value: typeof data.value === 'string' ? data.value : '' };
+
+    case 'phrase_dnd':
+    case 'reorder_4': {
+      const expected = step.type === 'phrase_dnd' ? base.order : base.order;
+      if (!Array.isArray(data.order)) return base;
+      const order = data.order.filter(Number.isInteger);
+      if (order.length !== expected.length) return base;
+      if (new Set(order).size !== expected.length) return base;
+      const max = expected.length - 1;
+      for (const value of order) {
+        if (value < 0 || value > max) return base;
+      }
+      return { order };
     }
+
+    case 'select_2_of_4':
+    case 'choose_2_of_4': {
+      if (!Array.isArray(data.selected)) return base;
+      const allowed = step.type === 'select_2_of_4'
+        ? step.uiOptions.cards.map((card) => card.id)
+        : step.uiOptions.options.map((option) => option.id);
+
+      const selected = [];
+      data.selected.forEach((id) => {
+        if (typeof id === 'string' && allowed.includes(id) && !selected.includes(id)) {
+          selected.push(id);
+        }
+      });
+      return { selected };
+    }
+
+    case 'memory_6': {
+      if (!Array.isArray(data.deck) || data.deck.length !== 6) return base;
+      const revealed = Array.isArray(data.revealed) ? uniqueInts(data.revealed, 0, 5).slice(0, 2) : [];
+      const matched = Array.isArray(data.matched) ? uniqueInts(data.matched, 0, 5) : [];
+      return {
+        deck: data.deck,
+        revealed,
+        matched,
+        misses: Number.isInteger(data.misses) ? Math.max(0, data.misses) : 0,
+        busy: Boolean(data.busy)
+      };
+    }
+
+    case 'range':
+      return { value: Number.isFinite(data.value) ? clamp(data.value, step.uiOptions.min, step.uiOptions.max) : step.uiOptions.start };
+
+    default:
+      return base;
   }
-  return order;
 }
 
 function saveState() {
-  appState.totalScore = computeTotalScore(appState.stepResults);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
-function computeTotalScore(stepResults) {
-  return stepResults.reduce((sum, item) => sum + normalizeScore(item.bestScore), 0);
-}
+function render(animated) {
+  const total = totalScore();
+  const attemptedCount = state.stepStates.filter((stepState) => stepState.attempted).length;
+  const progress = state.completed ? 100 : Math.round((attemptedCount / steps.length) * 100);
 
-function normalizeScore(value) {
-  const score = Number(value);
-  return SCORE_VALUES.includes(score) ? score : 0;
-}
+  ui.stepLabel.textContent = state.completed ? 'Финал' : `Шаг ${state.currentStep + 1}/${steps.length}`;
+  ui.scoreLabel.textContent = `Очки: ${total}/100`;
+  ui.progressBar.style.width = `${progress}%`;
+  ui.progressWrap.setAttribute('aria-valuenow', String(progress));
 
-function renderApp(animated) {
-  appState.totalScore = computeTotalScore(appState.stepResults);
-  updateHeader();
-  updateNavigation();
-
-  if (appState.completed) {
-    renderFinal(animated);
-  } else {
-    renderStep(animated);
-  }
-
-  saveState();
-}
-
-function updateHeader() {
-  if (appState.completed) {
-    stepCounterEl.textContent = 'Финал';
-  } else {
-    stepCounterEl.textContent = `Шаг ${appState.currentStep + 1}/${STEP_COUNT}`;
-  }
-
-  scoreCounterEl.textContent = `Очки: ${appState.totalScore}/100`;
-
-  const completedCount = appState.stepResults.filter((item) => item.locked || item.attempted).length;
-  const progress = appState.completed ? 100 : Math.round((completedCount / STEP_COUNT) * 100);
-  progressFillEl.style.width = `${progress}%`;
-  progressFillEl.parentElement.setAttribute('aria-valuenow', String(progress));
-}
-
-function updateNavigation() {
-  if (appState.completed) {
-    navPanel.hidden = true;
+  if (state.completed) {
+    ui.navigation.hidden = true;
+    swapStage(renderFinal(), animated);
     return;
   }
 
-  navPanel.hidden = false;
-  backBtn.disabled = appState.currentStep === 0;
+  ui.navigation.hidden = false;
+  ui.backBtn.disabled = state.currentStep === 0;
+  ui.nextBtn.disabled = !state.stepStates[state.currentStep].attempted;
+  ui.nextBtn.textContent = state.currentStep === steps.length - 1 ? 'К финалу' : 'Дальше';
 
-  const currentResult = appState.stepResults[appState.currentStep];
-  nextBtn.disabled = !currentResult.attempted;
-  nextBtn.textContent = appState.currentStep === STEP_COUNT - 1 ? 'К финалу' : 'Дальше';
+  const step = steps[state.currentStep];
+  const stepState = state.stepStates[state.currentStep];
+  swapStage(renderStep(step, stepState), animated);
 }
 
-function renderStep(animated) {
-  const step = QUEST_STEPS[appState.currentStep];
-  const result = appState.stepResults[appState.currentStep];
-  const locked = result.locked;
-  const mediaHtml = step.media
-    ? `<div class="media-wrap"><img src="${step.media}" alt="Иллюстрация шага ${appState.currentStep + 1}" /></div>`
-    : '';
+function renderStep(step, stepState) {
+  const feedback = stepState.lastScore === null
+    ? 'Пока проверки не было. Нажми «Проверить/Засчитать».'
+    : `Последняя проверка: <strong>${stepState.lastScore}</strong>, лучший результат: <strong>${stepState.bestScore}</strong>.`;
 
-  const feedback = result.lastScore === null
-    ? 'Пока нет проверки. Нажмите «Проверить/Засчитать».'
-    : `Последняя проверка: <strong>${result.lastScore}</strong>. Лучший результат: <strong>${result.bestScore}</strong>.`;
+  return `
+    <article class="glass step-card">
+      <h2 class="step-title">${escapeHtml(step.title)}</h2>
+      <p class="step-text">${escapeHtml(step.text)}</p>
 
-  const html = `
-    <article class="step-card" data-step-type="${step.type}">
-      <h1 class="step-title">${step.title}</h1>
-      <p class="step-text">${step.text}</p>
-      ${mediaHtml}
-      <section class="task-box">
-        <p class="task-caption">${step.ui.prompt || step.ui.label || step.ui.question || 'Выполните задание:'}</p>
-        ${renderTask(step, result)}
+      ${renderMediaPlaceholder(step)}
+
+      <section class="task-card">
+        <p class="caption">${escapeHtml(step.uiOptions.helper || 'Выполни задание и нажми проверку.')}</p>
+        ${renderTaskByType(step, stepState)}
       </section>
 
-      <div class="controls-row">
-        <button type="button" class="btn btn-primary" data-action="check-step" ${locked ? 'disabled' : ''}>Проверить/Засчитать</button>
-        <button type="button" class="btn" data-action="hint-toggle">Подсказка</button>
-        <button type="button" class="btn btn-danger" data-action="reset-quest">Сбросить квест</button>
+      <div class="controls">
+        <button class="btn btn-primary" type="button" data-action="check">Проверить/Засчитать</button>
+        <button class="btn" type="button" data-action="hint">Подсказка</button>
+        <button class="btn btn-danger" type="button" data-action="reset">Сбросить квест</button>
       </div>
 
-      ${result.hintOpened ? `<div class="hint-box"><strong>Подсказка:</strong> ${step.hint}</div>` : ''}
-      <p class="feedback">${feedback}</p>
-      ${locked ? '<div class="locked-box">Шаг зафиксирован после перехода вперёд. Изменение ответа отключено.</div>' : ''}
+      ${stepState.hintOpen ? `<div class="hint-box"><strong>Подсказка:</strong> ${escapeHtml(step.hint)}</div>` : ''}
+      <div class="feedback">${feedback}</div>
     </article>
   `;
-
-  swapStage(html, animated);
 }
 
-function renderTask(step, result) {
-  const snapshot = result.answerSnapshot;
-  const locked = result.locked;
+function renderMediaPlaceholder(step) {
+  const title = step.uiOptions.placeholderTitle || 'Карточка-заглушка';
+  const subtitle = step.uiOptions.placeholderSubtitle || 'Фото добавим позже';
+
+  return `
+    <div class="media-placeholder">
+      <div class="media-title">${escapeHtml(title)}</div>
+      <p class="caption">${escapeHtml(subtitle)}</p>
+      <span class="media-tag">Фото добавим позже</span>
+    </div>
+  `;
+}
+
+function renderTaskByType(step, stepState) {
+  const data = stepState.userData;
 
   switch (step.type) {
     case 'hotspot': {
-      const xValue = snapshot.x === null ? 50 : Math.round(snapshot.x);
-      const yValue = snapshot.y === null ? 50 : Math.round(snapshot.y);
-      const marker = snapshot.x === null || snapshot.y === null
+      const marker = data.x === null || data.y === null
         ? ''
-        : `<span class="hotspot-dot" id="hotspotDot" style="left:${snapshot.x}%; top:${snapshot.y}%;"></span>`;
+        : `<span class="hotspot-marker" style="left:${data.x}%; top:${data.y}%"></span>`;
 
       return `
-        <div class="hotspot-frame" id="hotspotFrame" data-interactive="true" tabindex="0" aria-label="Область выбора точки">
-          <img src="${step.media}" alt="Фото для выбора точки" />
-          ${marker}
-        </div>
-        <div class="hotspot-controls">
-          <label>Координата X
-            <input class="range-input" type="range" id="hotspotX" min="0" max="100" value="${xValue}" ${locked ? 'disabled' : ''} />
-          </label>
-          <label>Координата Y
-            <input class="range-input" type="range" id="hotspotY" min="0" max="100" value="${yValue}" ${locked ? 'disabled' : ''} />
-          </label>
-          <p class="task-caption" id="hotspotCoords">${snapshot.x === null ? 'Точка не выбрана.' : `Точка: ${Math.round(snapshot.x)}% / ${Math.round(snapshot.y)}%`}</p>
+        <div class="hotspot-grid">
+          <div class="hotspot-box" id="hotspotBox" data-action="hotspot-click" tabindex="0" aria-label="Область выбора скрытой зоны">
+            <div class="caption">Найди невидимую зону кликом.</div>
+            ${marker}
+          </div>
+
+          <label class="caption" for="hotspotX">Координата X</label>
+          <input id="hotspotX" class="hotspot-range" type="range" min="0" max="100" value="${data.x === null ? 50 : Math.round(data.x)}" />
+
+          <label class="caption" for="hotspotY">Координата Y</label>
+          <input id="hotspotY" class="hotspot-range" type="range" min="0" max="100" value="${data.y === null ? 50 : Math.round(data.y)}" />
+
+          <p class="caption">${data.x === null ? 'Точка пока не выбрана.' : `Текущая точка: ${Math.round(data.x)} / ${Math.round(data.y)}`}</p>
         </div>
       `;
     }
 
     case 'number':
       return `
-        <label>${step.ui.label}
-          <input class="number-input" id="numberInput" type="number" inputmode="numeric" value="${escapeHtml(snapshot.value)}" placeholder="Введите число" ${locked ? 'disabled' : ''} />
-        </label>
+        <label for="numberAnswer" class="caption">${escapeHtml(step.uiOptions.label)}</label>
+        <input id="numberAnswer" class="input" type="number" inputmode="numeric" value="${escapeHtml(data.value)}" placeholder="Например, 32" />
       `;
 
     case 'text':
       return `
-        <label>${step.ui.label}
-          <input class="text-input" id="textInput" type="text" value="${escapeHtml(snapshot.value)}" placeholder="Введите ответ" ${locked ? 'disabled' : ''} />
-        </label>
+        <label for="textAnswer" class="caption">${escapeHtml(step.uiOptions.label)}</label>
+        <input id="textAnswer" class="input" type="text" value="${escapeHtml(data.value)}" placeholder="Введи нашу фразу" />
       `;
 
     case 'choice3':
       return `
-        <div class="choice-grid" role="radiogroup" aria-label="Выбор из трех вариантов">
-          ${step.ui.options
+        <div class="choice-group" role="radiogroup" aria-label="Выбор из трех вариантов">
+          ${step.uiOptions.options
             .map((option) => `
-              <label class="choice-item">
-                <input type="radio" name="choice3" value="${option.value}" ${snapshot.value === option.value ? 'checked' : ''} ${locked ? 'disabled' : ''} />
-                <span>${option.label}</span>
+              <label class="choice-option">
+                <input type="radio" name="choice3" value="${escapeHtml(option.value)}" ${data.value === option.value ? 'checked' : ''} />
+                <span>${escapeHtml(option.label)}</span>
               </label>
             `)
             .join('')}
         </div>
       `;
 
-    case 'puzzle': {
-      const slots = snapshot.slots;
-      const tilesById = new Map(step.ui.tiles.map((tile) => [tile.id, tile]));
-      const placedIds = slots.filter((value) => value !== null);
-      const poolIds = step.ui.tiles.map((tile) => tile.id).filter((id) => !placedIds.includes(id));
-      const matched = countMatches(slots, step.correctAnswers.order);
+    case 'phrase_dnd':
+      return renderSortableList({
+        type: 'phrase_dnd',
+        order: data.order,
+        labels: step.uiOptions.words
+      });
 
-      const slotsHtml = slots
-        .map((tileId, slotIndex) => {
-          if (tileId === null) {
-            return `
-              <div class="puzzle-slot" data-slot-index="${slotIndex}" data-action="puzzle-place-slot" tabindex="0">
-                <span>Слот ${slotIndex + 1}</span>
-              </div>
-            `;
-          }
-
-          const tile = tilesById.get(tileId);
-          const selectedClass = snapshot.selectedTile === tileId ? 'selected' : '';
-          return `
-            <div class="puzzle-slot" data-slot-index="${slotIndex}" data-action="puzzle-place-slot" tabindex="0">
-              <div class="puzzle-tile ${selectedClass}" draggable="${locked ? 'false' : 'true'}" data-tile-id="${tile.id}" data-slot-index="${slotIndex}" data-action="puzzle-select-tile" tabindex="0">
-                ${tile.label}
-              </div>
-              <button type="button" class="compact-btn" data-action="puzzle-remove-slot" data-slot-index="${slotIndex}" ${locked ? 'disabled' : ''}>Убрать</button>
-            </div>
-          `;
-        })
-        .join('');
-
-      const poolHtml = poolIds
-        .map((tileId) => {
-          const tile = tilesById.get(tileId);
-          const selectedClass = snapshot.selectedTile === tileId ? 'selected' : '';
-          return `<div class="puzzle-tile ${selectedClass}" draggable="${locked ? 'false' : 'true'}" data-tile-id="${tile.id}" data-slot-index="" data-action="puzzle-select-tile" tabindex="0">${tile.label}</div>`;
-        })
-        .join('');
-
+    case 'select_2_of_4':
       return `
-        <div class="task-caption">Перетаскивайте фрагменты в слоты. Есть автопроверка совпадений.</div>
-        <div class="puzzle-grid">${slotsHtml}</div>
-        <div class="puzzle-pool" id="puzzlePool" data-drop-pool="true">${poolHtml}</div>
-        <div class="slot-buttons">
-          ${[0, 1, 2, 3]
-            .map((slotIndex) => `<button type="button" class="compact-btn" data-action="puzzle-place-slot" data-slot-index="${slotIndex}" ${locked ? 'disabled' : ''}>В слот ${slotIndex + 1}</button>`)
-            .join('')}
-          <button type="button" class="compact-btn" data-action="puzzle-clear" ${locked ? 'disabled' : ''}>Очистить</button>
-        </div>
-        <p class="task-caption">Автопроверка: совпадений ${matched}/4.</p>
-      `;
-    }
-
-    case 'reorder': {
-      const order = snapshot.order;
-      return `
-        <ul class="reorder-list" id="reorderList">
-          ${order
-            .map((itemId, index) => {
-              const text = step.ui.events[itemId];
-              return `
-                <li class="reorder-item" draggable="${locked ? 'false' : 'true'}" data-item-id="${itemId}" data-order-index="${index}">
-                  <span>${text}</span>
-                  <div class="compact-controls">
-                    <button type="button" class="compact-btn" data-action="reorder-up" data-order-index="${index}" ${locked ? 'disabled' : ''}>↑</button>
-                    <button type="button" class="compact-btn" data-action="reorder-down" data-order-index="${index}" ${locked ? 'disabled' : ''}>↓</button>
-                  </div>
-                </li>
-              `;
-            })
-            .join('')}
-        </ul>
-      `;
-    }
-
-    case 'wordTiles': {
-      const answer = snapshot.answer;
-      const pool = step.ui.words
-        .map((_, index) => index)
-        .filter((index) => !answer.includes(index));
-
-      const answerHtml = answer.length
-        ? answer
-            .map((wordIndex, index) => `
-              <button type="button" class="word-chip" data-action="word-remove" data-answer-index="${index}" ${locked ? 'disabled' : ''}>
-                ${step.ui.words[wordIndex]} ×
-              </button>
-            `)
-            .join('')
-        : '<span class="task-caption">Пока пусто</span>';
-
-      return `
-        <div class="tile-zone">
-          <div>
-            <p class="task-caption">Собранная фраза:</p>
-            <div class="answer-line">${answerHtml}</div>
-          </div>
-          <div>
-            <p class="task-caption">Доступные слова:</p>
-            <div class="word-bank">
-              ${pool
-                .map((wordIndex) => `<button type="button" class="word-option" data-action="word-add" data-word-index="${wordIndex}" ${locked ? 'disabled' : ''}>${step.ui.words[wordIndex]}</button>`)
-                .join('')}
-            </div>
-          </div>
-          <div>
-            <button type="button" class="compact-btn" data-action="word-clear" ${locked ? 'disabled' : ''}>Очистить фразу</button>
-          </div>
-        </div>
-      `;
-    }
-
-    case 'memory6': {
-      const cardLabels = step.ui.pairLabels;
-      const cards = snapshot.cards;
-      const matched = new Set(snapshot.matched);
-      const opened = new Set(snapshot.open);
-
-      return `
-        <div class="memory-grid">
-          ${cards
-            .map((key, index) => {
-              const isMatched = matched.has(index);
-              const isOpened = opened.has(index);
-              const reveal = isMatched || isOpened;
-              const classes = ['memory-card'];
-              if (isMatched) classes.push('matched');
-              if (isOpened) classes.push('revealed');
-
+        <div class="pick-grid">
+          ${step.uiOptions.cards
+            .map((card) => {
+              const active = data.selected.includes(card.id);
               return `
                 <button
                   type="button"
-                  class="${classes.join(' ')}"
-                  data-action="memory-card"
-                  data-card-index="${index}"
-                  ${locked ? 'disabled' : ''}
+                  class="pick-card ${active ? 'active' : ''}"
+                  data-action="toggle-pick"
+                  data-id="${escapeHtml(card.id)}"
                 >
-                  ${reveal ? cardLabels[key] : '?'}
+                  <strong>${escapeHtml(card.title)}</strong>
+                  <p>${escapeHtml(card.subtitle)}</p>
                 </button>
               `;
             })
             .join('')}
         </div>
-        <p class="task-caption">Промахи: ${snapshot.misses}. Собрано пар: ${Math.floor(snapshot.matched.length / 2)}/3.</p>
+      `;
+
+    case 'reorder_4':
+      return renderSortableList({
+        type: 'reorder_4',
+        order: data.order,
+        labels: step.uiOptions.items
+      });
+
+    case 'memory_6': {
+      const pairMap = new Map(step.uiOptions.pairs.map((pair) => [pair.id, pair.label]));
+      const opened = new Set(data.revealed);
+      const matched = new Set(data.matched);
+
+      return `
+        <div class="memory-grid">
+          ${data.deck
+            .map((pairId, index) => {
+              const show = opened.has(index) || matched.has(index);
+              const doneClass = matched.has(index) ? 'done' : show ? 'show' : '';
+              const text = show ? pairMap.get(pairId) : '?';
+              return `
+                <button
+                  type="button"
+                  class="memory-card ${doneClass}"
+                  data-action="memory-open"
+                  data-index="${index}"
+                >${escapeHtml(text)}</button>
+              `;
+            })
+            .join('')}
+        </div>
+        <p class="caption">Промахи: ${data.misses}. Открыто пар: ${Math.floor(data.matched.length / 2)}/3.</p>
       `;
     }
 
     case 'range':
       return `
-        <label>${step.ui.label}</label>
-        <div class="range-line">
+        <div class="range-row">
           <input
-            id="rangeInput"
-            class="range-input"
+            id="rangeAnswer"
+            class="range"
             type="range"
-            min="${step.ui.min}"
-            max="${step.ui.max}"
-            step="${step.ui.step}"
-            value="${snapshot.value}"
-            ${locked ? 'disabled' : ''}
+            min="${step.uiOptions.min}"
+            max="${step.uiOptions.max}"
+            step="${step.uiOptions.step}"
+            value="${data.value}"
           />
-          <span class="range-value" id="rangeValue">${snapshot.value}</span>
+          <span id="rangeValue" class="range-value">${data.value}</span>
         </div>
       `;
 
-    case 'yesno':
+    case 'choose_2_of_4':
       return `
-        <p class="task-caption">${step.ui.question}</p>
-        <div class="toggle-wrap">
-          <button type="button" class="btn toggle-btn ${snapshot.value === 'yes' ? 'btn-primary' : ''}" data-action="yesno-set" data-value="yes" ${locked ? 'disabled' : ''}>Да</button>
-          <button type="button" class="btn toggle-btn ${snapshot.value === 'no' ? 'btn-primary' : ''}" data-action="yesno-set" data-value="no" ${locked ? 'disabled' : ''}>Нет</button>
+        <div class="pick-grid">
+          ${step.uiOptions.options
+            .map((option) => {
+              const active = data.selected.includes(option.id);
+              return `
+                <button
+                  type="button"
+                  class="pick-card ${active ? 'active' : ''}"
+                  data-action="toggle-pick"
+                  data-id="${escapeHtml(option.id)}"
+                >
+                  ${escapeHtml(option.text)}
+                </button>
+              `;
+            })
+            .join('')}
         </div>
-        <p class="task-caption">Выбрано: ${snapshot.value === 'yes' ? 'Да' : snapshot.value === 'no' ? 'Нет' : 'ничего'}</p>
       `;
 
     default:
-      return '<p class="task-caption">Тип задания не поддерживается.</p>';
+      return '<p class="caption">Тип задания не поддерживается.</p>';
   }
 }
 
-function renderFinal(animated) {
-  const rows = QUEST_STEPS.map((step, index) => {
-    const points = appState.stepResults[index].bestScore;
-    return `<tr><td>${index + 1}</td><td>${step.title}</td><td>${points}</td></tr>`;
-  }).join('');
+function renderSortableList({ type, order, labels }) {
+  return `
+    <ul class="sort-list" data-sort-type="${type}">
+      ${order
+        .map((itemIndex, position) => {
+          return `
+            <li class="sort-item" draggable="true" data-action="sort-item" data-sort-type="${type}" data-position="${position}">
+              <span>${escapeHtml(labels[itemIndex])}</span>
+              <span class="sort-controls">
+                <button type="button" class="icon-btn" data-action="sort-up" data-sort-type="${type}" data-position="${position}" aria-label="Поднять">↑</button>
+                <button type="button" class="icon-btn" data-action="sort-down" data-sort-type="${type}" data-position="${position}" aria-label="Опустить">↓</button>
+              </span>
+            </li>
+          `;
+        })
+        .join('')}
+    </ul>
+  `;
+}
 
-  const payout = (appState.totalScore / 2) * 1000;
+function renderFinal() {
+  const rows = steps
+    .map((step, index) => {
+      const score = state.stepStates[index].bestScore;
+      return `<tr><td>${index + 1}</td><td>${escapeHtml(step.title)}</td><td>${score}</td></tr>`;
+    })
+    .join('');
 
-  const html = `
-    <article class="final-card">
-      <h1 class="step-title">Итоги квеста</h1>
-      <p class="step-text">Все шаги завершены. Ниже итоговые очки и выигрышная сумма.</p>
+  const total = totalScore();
+  const code = (total / 2) * 1000;
+
+  return `
+    <article class="glass final-card">
+      <h2 class="step-title">Финал, Алина</h2>
+      <p class="step-text">Ты прошла весь маршрут. Ниже твой результат и секретный код.</p>
+
       <table class="final-table">
         <thead>
           <tr>
             <th>Шаг</th>
-            <th>Название</th>
+            <th>Задание</th>
             <th>Очки</th>
           </tr>
         </thead>
-        <tbody>
-          ${rows}
-        </tbody>
+        <tbody>${rows}</tbody>
       </table>
-      <p class="final-total">totalScore: ${appState.totalScore} / 100</p>
-      <p class="final-total">payout: ${formatTenge(payout)}</p>
-      <button type="button" class="btn btn-primary" data-action="final-restart">Пройти заново</button>
+
+      <p><strong>totalScore:</strong> ${total}</p>
+      <p><strong>Секретное число:</strong></p>
+      <div class="secret-code">${formatCode(code)}</div>
+      <p class="step-text">Отправь мне этот код в WhatsApp.</p>
+
+      <div class="controls">
+        <button class="btn btn-primary" type="button" data-action="restart">Пройти заново</button>
+      </div>
     </article>
   `;
-
-  swapStage(html, animated);
 }
 
-function swapStage(html, animated) {
-  const current = stageEl.firstElementChild;
-  const runAnimation = animated && current && !reduceMotionQuery.matches;
+function onStageClick(event) {
+  const target = event.target.closest('[data-action]');
+  if (!target) return;
 
-  if (!runAnimation) {
-    stageEl.innerHTML = html;
-    const inserted = stageEl.firstElementChild;
-    if (inserted) inserted.classList.add('step-enter');
+  const action = target.dataset.action;
+
+  if (action === 'restart') {
+    resetQuest();
     return;
   }
 
-  current.classList.add('step-exit');
-  window.setTimeout(() => {
-    stageEl.innerHTML = html;
-    const inserted = stageEl.firstElementChild;
-    if (inserted) inserted.classList.add('step-enter');
-  }, 200);
-}
+  if (state.completed) return;
 
-function navigate(direction) {
-  if (appState.completed) {
-    return;
-  }
+  const step = currentStep();
+  const stepState = currentStepState();
 
-  if (direction < 0) {
-    if (appState.currentStep > 0) {
-      appState.currentStep -= 1;
-      renderApp(true);
+  switch (action) {
+    case 'check': {
+      const score = evaluateStep(step, stepState.userData);
+      stepState.lastScore = score;
+      stepState.bestScore = Math.max(stepState.bestScore, score);
+      stepState.attempted = true;
+      saveState();
+      render(false);
+      announce(`Проверка завершена. ${score} очков.`);
+      break;
     }
-    return;
+
+    case 'hint': {
+      stepState.hintOpen = !stepState.hintOpen;
+      saveState();
+      render(false);
+      break;
+    }
+
+    case 'reset': {
+      resetQuest();
+      break;
+    }
+
+    case 'hotspot-click': {
+      if (step.type !== 'hotspot') return;
+      const rect = target.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = ((event.clientY - rect.top) / rect.height) * 100;
+      stepState.userData.x = clamp(x, 0, 100);
+      stepState.userData.y = clamp(y, 0, 100);
+      saveState();
+      render(false);
+      break;
+    }
+
+    case 'toggle-pick': {
+      togglePick(step, stepState, target.dataset.id);
+      break;
+    }
+
+    case 'sort-up': {
+      moveSort(stepState, target.dataset.sortType, Number(target.dataset.position), -1);
+      break;
+    }
+
+    case 'sort-down': {
+      moveSort(stepState, target.dataset.sortType, Number(target.dataset.position), 1);
+      break;
+    }
+
+    case 'memory-open': {
+      if (step.type !== 'memory_6') return;
+      openMemoryCard(stepState, Number(target.dataset.index));
+      break;
+    }
+
+    default:
+      break;
   }
-
-  const result = appState.stepResults[appState.currentStep];
-  if (!result.attempted) {
-    return;
-  }
-
-  result.locked = true;
-
-  if (appState.currentStep === STEP_COUNT - 1) {
-    appState.completed = true;
-    appState.currentStep = STEP_COUNT;
-    announce('Квест завершен. Открыты финальные результаты.');
-  } else {
-    appState.currentStep += 1;
-    announce(`Переход к шагу ${appState.currentStep + 1}.`);
-  }
-
-  renderApp(true);
 }
 
-function handleStageClick(event) {
-  const actionTarget = event.target.closest('[data-action]');
+function onStageInput(event) {
+  if (state.completed) return;
 
-  if (actionTarget) {
-    const action = actionTarget.dataset.action;
+  const step = currentStep();
+  const stepState = currentStepState();
 
-    switch (action) {
-      case 'hint-toggle':
-        toggleHint();
-        return;
-      case 'check-step':
-        checkCurrentStep();
-        return;
-      case 'reset-quest':
-      case 'final-restart':
-        resetQuest();
-        return;
-      case 'puzzle-select-tile':
-        selectPuzzleTile(actionTarget);
-        return;
-      case 'puzzle-place-slot':
-        placeSelectedTile(actionTarget);
-        return;
-      case 'puzzle-remove-slot':
-        removeTileFromSlot(actionTarget);
-        return;
-      case 'puzzle-clear':
-        clearPuzzle();
-        return;
-      case 'reorder-up':
-        reorderByButtons(actionTarget, -1);
-        return;
-      case 'reorder-down':
-        reorderByButtons(actionTarget, 1);
-        return;
-      case 'word-add':
-        addWordTile(actionTarget);
-        return;
-      case 'word-remove':
-        removeWordTile(actionTarget);
-        return;
-      case 'word-clear':
-        clearWordTiles();
-        return;
-      case 'memory-card':
-        revealMemoryCard(actionTarget);
-        return;
-      case 'yesno-set':
-        setYesNo(actionTarget);
-        return;
-      default:
-        break;
-    }
-  }
-
-  const currentStep = getCurrentStep();
-  if (!currentStep || currentStep.type !== 'hotspot' || isCurrentLocked()) {
-    return;
-  }
-
-  const frame = event.target.closest('#hotspotFrame');
-  if (!frame) {
-    return;
-  }
-
-  const rect = frame.getBoundingClientRect();
-  const x = ((event.clientX - rect.left) / rect.width) * 100;
-  const y = ((event.clientY - rect.top) / rect.height) * 100;
-
-  const snapshot = getCurrentSnapshot();
-  snapshot.x = clamp(x, 0, 100);
-  snapshot.y = clamp(y, 0, 100);
-
-  renderApp(false);
-}
-
-function handleStageInput(event) {
-  const step = getCurrentStep();
-  if (!step || isCurrentLocked()) {
-    return;
-  }
-
-  const snapshot = getCurrentSnapshot();
-
-  if (step.type === 'hotspot' && (event.target.id === 'hotspotX' || event.target.id === 'hotspotY')) {
-    const xInput = document.getElementById('hotspotX');
-    const yInput = document.getElementById('hotspotY');
-    snapshot.x = clamp(Number(xInput.value), 0, 100);
-    snapshot.y = clamp(Number(yInput.value), 0, 100);
-    const coords = document.getElementById('hotspotCoords');
-    if (coords) {
-      coords.textContent = `Точка: ${Math.round(snapshot.x)}% / ${Math.round(snapshot.y)}%`;
-    }
-    const dot = document.getElementById('hotspotDot');
-    if (dot) {
-      dot.style.left = `${snapshot.x}%`;
-      dot.style.top = `${snapshot.y}%`;
-    } else {
-      renderApp(false);
+  if (step.type === 'hotspot') {
+    if (event.target.id === 'hotspotX') {
+      stepState.userData.x = clamp(Number(event.target.value), 0, 100);
+      if (!Number.isFinite(stepState.userData.y)) {
+        stepState.userData.y = 50;
+      }
+      saveState();
+      render(false);
       return;
     }
+
+    if (event.target.id === 'hotspotY') {
+      stepState.userData.y = clamp(Number(event.target.value), 0, 100);
+      if (!Number.isFinite(stepState.userData.x)) {
+        stepState.userData.x = 50;
+      }
+      saveState();
+      render(false);
+      return;
+    }
+  }
+
+  if (step.type === 'number' && event.target.id === 'numberAnswer') {
+    stepState.userData.value = event.target.value;
     saveState();
     return;
   }
 
-  if (step.type === 'number' && event.target.id === 'numberInput') {
-    snapshot.value = event.target.value;
+  if (step.type === 'text' && event.target.id === 'textAnswer') {
+    stepState.userData.value = event.target.value;
     saveState();
     return;
   }
 
-  if (step.type === 'text' && event.target.id === 'textInput') {
-    snapshot.value = event.target.value;
-    saveState();
-    return;
-  }
-
-  if (step.type === 'range' && event.target.id === 'rangeInput') {
-    snapshot.value = Number(event.target.value);
+  if (step.type === 'range' && event.target.id === 'rangeAnswer') {
+    stepState.userData.value = Number(event.target.value);
     const valueEl = document.getElementById('rangeValue');
     if (valueEl) {
-      valueEl.textContent = String(snapshot.value);
+      valueEl.textContent = String(stepState.userData.value);
     }
     saveState();
   }
 }
 
-function handleStageChange(event) {
-  const step = getCurrentStep();
-  if (!step || isCurrentLocked()) {
-    return;
-  }
+function onStageChange(event) {
+  if (state.completed) return;
+
+  const step = currentStep();
+  const stepState = currentStepState();
 
   if (step.type === 'choice3' && event.target.name === 'choice3') {
-    const snapshot = getCurrentSnapshot();
-    snapshot.value = event.target.value;
+    stepState.userData.value = event.target.value;
     saveState();
   }
 }
 
-function handleStageKeydown(event) {
-  const actionTarget = event.target.closest('[data-action="puzzle-place-slot"], [data-action="puzzle-select-tile"]');
-  if (!actionTarget) {
-    return;
-  }
-
-  if (event.key === 'Enter' || event.key === ' ') {
+function onStageKeydown(event) {
+  const hotspotBox = event.target.closest('#hotspotBox');
+  if (hotspotBox && (event.key === 'Enter' || event.key === ' ')) {
     event.preventDefault();
-    actionTarget.click();
+    const rect = hotspotBox.getBoundingClientRect();
+    const x = rect.width * 0.5;
+    const y = rect.height * 0.5;
+
+    const stepState = currentStepState();
+    stepState.userData.x = (x / rect.width) * 100;
+    stepState.userData.y = (y / rect.height) * 100;
+    saveState();
+    render(false);
   }
 }
 
-function handleStageDragStart(event) {
-  const step = getCurrentStep();
-  if (!step || isCurrentLocked()) {
-    return;
-  }
+function onStageDragStart(event) {
+  if (state.completed) return;
 
-  if (step.type === 'puzzle') {
-    const tile = event.target.closest('.puzzle-tile');
-    if (!tile) {
-      return;
-    }
-    dragState.mode = 'puzzle';
-    dragState.tileId = Number(tile.dataset.tileId);
-    dragState.sourceSlot = tile.dataset.slotIndex === '' ? null : Number(tile.dataset.slotIndex);
-    event.dataTransfer.effectAllowed = 'move';
-    return;
-  }
+  const item = event.target.closest('[data-action="sort-item"]');
+  if (!item) return;
 
-  if (step.type === 'reorder') {
-    const item = event.target.closest('.reorder-item');
-    if (!item) {
-      return;
-    }
-    dragState.mode = 'reorder';
-    dragState.reorderItemId = Number(item.dataset.itemId);
-    event.dataTransfer.effectAllowed = 'move';
-  }
+  dragPayload = {
+    sortType: item.dataset.sortType,
+    from: Number(item.dataset.position)
+  };
+
+  event.dataTransfer.effectAllowed = 'move';
 }
 
-function handleStageDragOver(event) {
-  const step = getCurrentStep();
-  if (!step || isCurrentLocked()) {
-    return;
-  }
+function onStageDragOver(event) {
+  if (!dragPayload) return;
 
-  if (step.type === 'puzzle') {
-    if (event.target.closest('.puzzle-slot') || event.target.closest('#puzzlePool')) {
-      event.preventDefault();
-    }
-    return;
-  }
+  const item = event.target.closest('[data-action="sort-item"]');
+  if (!item) return;
 
-  if (step.type === 'reorder') {
-    if (event.target.closest('.reorder-item') || event.target.closest('#reorderList')) {
-      event.preventDefault();
-    }
-  }
-}
-
-function handleStageDrop(event) {
-  const step = getCurrentStep();
-  if (!step || isCurrentLocked()) {
-    return;
-  }
-
-  if (step.type === 'puzzle' && dragState.mode === 'puzzle') {
+  if (item.dataset.sortType === dragPayload.sortType) {
     event.preventDefault();
-    const slot = event.target.closest('.puzzle-slot');
-    const pool = event.target.closest('#puzzlePool');
+  }
+}
 
-    if (slot) {
-      placeTileById(dragState.tileId, Number(slot.dataset.slotIndex), dragState.sourceSlot);
-    } else if (pool && Number.isInteger(dragState.sourceSlot)) {
-      const snapshot = getCurrentSnapshot();
-      snapshot.slots[dragState.sourceSlot] = null;
-      snapshot.selectedTile = dragState.tileId;
-      renderApp(false);
+function onStageDrop(event) {
+  if (!dragPayload || state.completed) return;
+
+  const item = event.target.closest('[data-action="sort-item"]');
+  if (!item) {
+    dragPayload = null;
+    return;
+  }
+
+  const sortType = item.dataset.sortType;
+  if (sortType !== dragPayload.sortType) {
+    dragPayload = null;
+    return;
+  }
+
+  event.preventDefault();
+
+  const to = Number(item.dataset.position);
+  const stepState = currentStepState();
+  const key = sortType === 'phrase_dnd' ? 'order' : 'order';
+  moveInArray(stepState.userData[key], dragPayload.from, to);
+  dragPayload = null;
+  saveState();
+  render(false);
+}
+
+function moveSort(stepState, sortType, from, delta) {
+  const to = from + delta;
+  const order = stepState.userData.order;
+  if (to < 0 || to >= order.length) return;
+  moveInArray(order, from, to);
+  saveState();
+  render(false);
+}
+
+function togglePick(step, stepState, id) {
+  if (!id) return;
+
+  const selected = stepState.userData.selected;
+  const exists = selected.includes(id);
+
+  if (exists) {
+    stepState.userData.selected = selected.filter((value) => value !== id);
+    saveState();
+    render(false);
+    return;
+  }
+
+  if (selected.length >= 2) {
+    announce('Можно выбрать ровно 2 варианта. Сначала сними один.');
+    return;
+  }
+
+  stepState.userData.selected = [...selected, id];
+  saveState();
+  render(false);
+}
+
+function openMemoryCard(stepState, index) {
+  const data = stepState.userData;
+
+  if (data.busy) return;
+  if (data.matched.includes(index)) return;
+  if (data.revealed.includes(index)) return;
+
+  data.revealed.push(index);
+
+  if (data.revealed.length < 2) {
+    saveState();
+    render(false);
+    return;
+  }
+
+  const [a, b] = data.revealed;
+  const same = data.deck[a] === data.deck[b];
+
+  if (same) {
+    data.matched.push(a, b);
+    data.revealed = [];
+    saveState();
+    render(false);
+    return;
+  }
+
+  data.misses += 1;
+  data.busy = true;
+  saveState();
+  render(false);
+
+  if (memoryTimeout) {
+    clearTimeout(memoryTimeout);
+  }
+
+  const stepIndex = state.currentStep;
+  memoryTimeout = window.setTimeout(() => {
+    const safeState = state.stepStates[stepIndex];
+    if (!safeState) return;
+
+    safeState.userData.revealed = [];
+    safeState.userData.busy = false;
+    saveState();
+    if (!state.completed && state.currentStep === stepIndex) {
+      render(false);
     }
-
-    clearDragState();
-    return;
-  }
-
-  if (step.type === 'reorder' && dragState.mode === 'reorder') {
-    event.preventDefault();
-    const target = event.target.closest('.reorder-item');
-    if (target) {
-      moveReorderItem(dragState.reorderItemId, Number(target.dataset.itemId));
-    }
-    clearDragState();
-  }
+  }, 700);
 }
 
-function clearDragState() {
-  dragState.mode = null;
-  dragState.tileId = null;
-  dragState.sourceSlot = null;
-  dragState.reorderItemId = null;
-}
-
-function toggleHint() {
-  if (appState.completed) {
-    return;
-  }
-  const result = appState.stepResults[appState.currentStep];
-  result.hintOpened = !result.hintOpened;
-  renderApp(false);
-}
-
-function checkCurrentStep() {
-  if (appState.completed) {
-    return;
-  }
-
-  const step = getCurrentStep();
-  const result = getCurrentResult();
-
-  if (result.locked) {
-    return;
-  }
-
-  const score = evaluateStep(step, result.answerSnapshot);
-  result.lastScore = score;
-  result.bestScore = Math.max(result.bestScore, score);
-  result.attempted = true;
-
-  announce(`Шаг ${appState.currentStep + 1}. Проверка завершена: ${score} очков. Лучший результат: ${result.bestScore}.`);
-  renderApp(false);
-}
-
-function evaluateStep(step, snapshot) {
+function evaluateStep(step, userData) {
   switch (step.type) {
     case 'hotspot': {
-      if (!isFiniteNumber(snapshot.x) || !isFiniteNumber(snapshot.y)) {
-        return 0;
-      }
-      const dx = snapshot.x - step.correctAnswers.x;
-      const dy = snapshot.y - step.correctAnswers.y;
-      const distance = Math.hypot(dx, dy);
+      if (!Number.isFinite(userData.x) || !Number.isFinite(userData.y)) return 0;
 
-      if (distance <= step.partialRules.fullRadius) return step.pointsLogic.full;
-      if (distance <= step.partialRules.partialRadius) return step.pointsLogic.partial;
-      return step.pointsLogic.wrong;
+      const zone = step.correct.zone;
+      if (insideRect(userData.x, userData.y, zone, 0)) {
+        return step.scoring.full;
+      }
+
+      if (insideRect(userData.x, userData.y, zone, step.partialRules.expandPxPercent)) {
+        return step.scoring.partial;
+      }
+
+      return step.scoring.wrong;
     }
 
     case 'number': {
-      const value = Number(snapshot.value);
+      const value = Number(userData.value);
       if (!Number.isFinite(value)) return 0;
-      if (value === step.correctAnswers.exact) return step.pointsLogic.full;
-      if (value >= step.partialRules.min && value <= step.partialRules.max) return step.pointsLogic.partial;
-      return step.pointsLogic.wrong;
+      if (value === step.correct.value) return step.scoring.full;
+      if (value >= step.partialRules.min && value <= step.partialRules.max) return step.scoring.partial;
+      return step.scoring.wrong;
     }
 
     case 'text': {
-      const normalized = normalizeText(snapshot.value);
+      const normalized = normalizeText(userData.value);
       if (!normalized) return 0;
 
-      const fullSet = new Set(step.correctAnswers.map(normalizeText));
-      if (fullSet.has(normalized)) return step.pointsLogic.full;
+      const answers = step.correct.answers.map(normalizeText);
+      if (answers.includes(normalized)) return step.scoring.full;
 
-      const partial = step.partialRules.acceptedFragments.some((fragment) => normalized.includes(normalizeText(fragment)));
-      if (partial) return step.pointsLogic.partial;
+      const hasRoot = step.partialRules.roots.some((root) => normalized.includes(normalizeText(root)));
+      if (hasRoot) return step.scoring.partial;
 
-      return step.pointsLogic.wrong;
+      return step.scoring.wrong;
     }
 
     case 'choice3': {
-      const value = snapshot.value;
-      if (!value) return 0;
-      if (value === step.correctAnswers.correct) return step.pointsLogic.full;
-      if (value === step.correctAnswers.partial) return step.pointsLogic.partial;
-      return step.pointsLogic.wrong;
+      if (!userData.value) return 0;
+      if (userData.value === step.correct.value) return step.scoring.full;
+      if (userData.value === step.partialRules.partialValue) return step.scoring.partial;
+      return step.scoring.wrong;
     }
 
-    case 'puzzle': {
-      const matches = countMatches(snapshot.slots, step.correctAnswers.order);
-      if (matches === step.correctAnswers.order.length) return step.pointsLogic.full;
-      if (matches >= step.partialRules.minCorrectPositions) return step.pointsLogic.partial;
-      return step.pointsLogic.wrong;
+    case 'phrase_dnd': {
+      const matches = countPositionMatches(userData.order, step.correct.order);
+      if (matches === step.correct.order.length) return step.scoring.full;
+      if (matches >= step.partialRules.minCorrectPositions) return step.scoring.partial;
+      return step.scoring.wrong;
     }
 
-    case 'reorder': {
-      const matches = countMatches(snapshot.order, step.correctAnswers.order);
-      if (matches === step.correctAnswers.order.length) return step.pointsLogic.full;
-      if (matches >= step.partialRules.minCorrectPositions) return step.pointsLogic.partial;
-      return step.pointsLogic.wrong;
+    case 'select_2_of_4': {
+      if (userData.selected.length !== step.partialRules.requiredCount) return 0;
+      const correctIds = step.correct.ids;
+      const matched = userData.selected.filter((id) => correctIds.includes(id)).length;
+      if (matched === 2) return step.scoring.full;
+      if (matched === 1) return step.scoring.partial;
+      return step.scoring.wrong;
     }
 
-    case 'wordTiles': {
-      if (!Array.isArray(snapshot.answer) || snapshot.answer.length !== step.correctAnswers.order.length) {
-        return 0;
+    case 'reorder_4': {
+      const matches = countPositionMatches(userData.order, step.correct.order);
+      if (matches === step.correct.order.length) return step.scoring.full;
+      if (matches >= step.partialRules.minCorrectPositions) return step.scoring.partial;
+      return step.scoring.wrong;
+    }
+
+    case 'memory_6': {
+      const pairs = Math.floor(userData.matched.length / 2);
+      if (pairs === step.correct.totalPairs) {
+        if (userData.misses <= step.partialRules.fullMaxMisses) return step.scoring.full;
+        return step.scoring.partial;
       }
-      if (arraysEqual(snapshot.answer, step.correctAnswers.order)) {
-        return step.pointsLogic.full;
-      }
 
-      const sameElements = arraysEqual(
-        [...snapshot.answer].sort((a, b) => a - b),
-        [...step.correctAnswers.order].sort((a, b) => a - b)
-      );
-      const wrongPositions = snapshot.answer.reduce(
-        (count, value, index) => count + (value === step.correctAnswers.order[index] ? 0 : 1),
-        0
-      );
-
-      if (sameElements && wrongPositions > 0 && wrongPositions <= step.partialRules.maxWrongPositions) {
-        return step.pointsLogic.partial;
-      }
-      return step.pointsLogic.wrong;
-    }
-
-    case 'memory6': {
-      const allOpened = snapshot.matched.length === snapshot.cards.length;
-      if (!allOpened) return 0;
-      if (snapshot.misses <= step.partialRules.maxMissesForFull) return step.pointsLogic.full;
-      return step.pointsLogic.partial;
+      if (pairs >= step.partialRules.partialMinPairs) return step.scoring.partial;
+      return step.scoring.wrong;
     }
 
     case 'range': {
-      const value = Number(snapshot.value);
-      if (!Number.isFinite(value)) return 0;
-      const diff = Math.abs(value - step.correctAnswers.target);
-      if (diff <= step.partialRules.fullTolerance) return step.pointsLogic.full;
-      if (diff <= step.partialRules.partialTolerance) return step.pointsLogic.partial;
-      return step.pointsLogic.wrong;
+      const diff = Math.abs(Number(userData.value) - step.correct.value);
+      if (diff <= step.partialRules.fullTolerance) return step.scoring.full;
+      if (diff <= step.partialRules.partialTolerance) return step.scoring.partial;
+      return step.scoring.wrong;
     }
 
-    case 'yesno': {
-      if (!snapshot.value) return 0;
-      if (snapshot.value === step.correctAnswers.value) return step.pointsLogic.full;
-      return step.pointsLogic.wrong;
+    case 'choose_2_of_4': {
+      if (userData.selected.length !== step.partialRules.requiredCount) return 0;
+      const matched = userData.selected.filter((id) => step.correct.ids.includes(id)).length;
+      if (matched === 2) return step.scoring.full;
+      if (matched === 1) return step.scoring.partial;
+      return step.scoring.wrong;
     }
 
     default:
@@ -1194,274 +1118,93 @@ function evaluateStep(step, snapshot) {
   }
 }
 
-function selectPuzzleTile(tileElement) {
-  if (isCurrentLocked()) {
-    return;
-  }
-
-  const snapshot = getCurrentSnapshot();
-  const tileId = Number(tileElement.dataset.tileId);
-  snapshot.selectedTile = snapshot.selectedTile === tileId ? null : tileId;
-  renderApp(false);
-}
-
-function placeSelectedTile(element) {
-  if (isCurrentLocked()) {
-    return;
-  }
-
-  const snapshot = getCurrentSnapshot();
-  if (!Number.isInteger(snapshot.selectedTile)) {
-    return;
-  }
-
-  const slotIndex = Number(element.dataset.slotIndex);
-  placeTileById(snapshot.selectedTile, slotIndex, null);
-}
-
-function placeTileById(tileId, targetSlot, sourceSlot) {
-  const snapshot = getCurrentSnapshot();
-  const slots = snapshot.slots;
-  const currentSlot = slots.indexOf(tileId);
-
-  if (currentSlot !== -1) {
-    slots[currentSlot] = null;
-  }
-
-  const occupyingTile = slots[targetSlot];
-
-  if (occupyingTile !== null && occupyingTile !== tileId) {
-    if (Number.isInteger(sourceSlot) && sourceSlot !== targetSlot) {
-      slots[sourceSlot] = occupyingTile;
-    }
-  }
-
-  slots[targetSlot] = tileId;
-  snapshot.selectedTile = tileId;
-
-  renderApp(false);
-}
-
-function removeTileFromSlot(element) {
-  if (isCurrentLocked()) {
-    return;
-  }
-
-  const slotIndex = Number(element.dataset.slotIndex);
-  const snapshot = getCurrentSnapshot();
-  if (slotIndex >= 0 && slotIndex < snapshot.slots.length) {
-    snapshot.slots[slotIndex] = null;
-    renderApp(false);
-  }
-}
-
-function clearPuzzle() {
-  if (isCurrentLocked()) {
-    return;
-  }
-
-  const snapshot = getCurrentSnapshot();
-  snapshot.slots = [null, null, null, null];
-  snapshot.selectedTile = null;
-  renderApp(false);
-}
-
-function reorderByButtons(element, direction) {
-  if (isCurrentLocked()) {
-    return;
-  }
-
-  const snapshot = getCurrentSnapshot();
-  const index = Number(element.dataset.orderIndex);
-  const next = index + direction;
-  if (next < 0 || next >= snapshot.order.length) {
-    return;
-  }
-  swapArrayPositions(snapshot.order, index, next);
-  renderApp(false);
-}
-
-function moveReorderItem(itemId, targetId) {
-  if (itemId === targetId) {
-    return;
-  }
-  const snapshot = getCurrentSnapshot();
-  const order = snapshot.order;
-  const from = order.indexOf(itemId);
-  let to = order.indexOf(targetId);
-  if (from === -1 || to === -1) {
-    return;
-  }
-
-  const [moved] = order.splice(from, 1);
-  if (from < to) {
-    to -= 1;
-  }
-  order.splice(to, 0, moved);
-  renderApp(false);
-}
-
-function addWordTile(element) {
-  if (isCurrentLocked()) {
-    return;
-  }
-
-  const step = getCurrentStep();
-  const snapshot = getCurrentSnapshot();
-  const wordIndex = Number(element.dataset.wordIndex);
-
-  if (!Number.isInteger(wordIndex)) {
-    return;
-  }
-  if (snapshot.answer.includes(wordIndex)) {
-    return;
-  }
-  if (snapshot.answer.length >= step.ui.words.length) {
-    return;
-  }
-
-  snapshot.answer.push(wordIndex);
-  renderApp(false);
-}
-
-function removeWordTile(element) {
-  if (isCurrentLocked()) {
-    return;
-  }
-
-  const snapshot = getCurrentSnapshot();
-  const index = Number(element.dataset.answerIndex);
-  if (index < 0 || index >= snapshot.answer.length) {
-    return;
-  }
-
-  snapshot.answer.splice(index, 1);
-  renderApp(false);
-}
-
-function clearWordTiles() {
-  if (isCurrentLocked()) {
-    return;
-  }
-
-  const snapshot = getCurrentSnapshot();
-  snapshot.answer = [];
-  renderApp(false);
-}
-
-function revealMemoryCard(element) {
-  if (isCurrentLocked()) {
-    return;
-  }
-
-  const snapshot = getCurrentSnapshot();
-  const cardIndex = Number(element.dataset.cardIndex);
-
-  if (snapshot.busy) return;
-  if (snapshot.matched.includes(cardIndex)) return;
-  if (snapshot.open.includes(cardIndex)) return;
-
-  snapshot.open.push(cardIndex);
-
-  if (snapshot.open.length < 2) {
-    renderApp(false);
-    return;
-  }
-
-  const [first, second] = snapshot.open;
-  if (snapshot.cards[first] === snapshot.cards[second]) {
-    snapshot.matched.push(first, second);
-    snapshot.open = [];
-    renderApp(false);
-    return;
-  }
-
-  snapshot.misses += 1;
-  snapshot.busy = true;
-  renderApp(false);
-
-  if (memoryFlipTimeout) {
-    clearTimeout(memoryFlipTimeout);
-  }
-
-  const currentStepIndex = appState.currentStep;
-  memoryFlipTimeout = window.setTimeout(() => {
-    const result = appState.stepResults[currentStepIndex];
-    if (!result) {
-      return;
-    }
-    const liveSnapshot = result.answerSnapshot;
-    liveSnapshot.open = [];
-    liveSnapshot.busy = false;
-    saveState();
-    if (!appState.completed && appState.currentStep === currentStepIndex) {
-      renderApp(false);
-    }
-  }, 700);
-}
-
-function setYesNo(element) {
-  if (isCurrentLocked()) {
-    return;
-  }
-
-  const value = element.dataset.value;
-  const snapshot = getCurrentSnapshot();
-  snapshot.value = value;
-  renderApp(false);
-}
-
 function resetQuest() {
-  const confirmed = window.confirm('Сбросить весь квест и удалить прогресс?');
-  if (!confirmed) {
-    return;
-  }
+  const approved = window.confirm('Сбросить квест и удалить прогресс?');
+  if (!approved) return;
 
-  if (memoryFlipTimeout) {
-    clearTimeout(memoryFlipTimeout);
-    memoryFlipTimeout = null;
+  if (memoryTimeout) {
+    clearTimeout(memoryTimeout);
+    memoryTimeout = null;
   }
 
   localStorage.removeItem(STORAGE_KEY);
-  appState = createInitialState();
-  announce('Квест сброшен. Прогресс очищен.');
-  renderApp(false);
+  state = createInitialState();
+  saveState();
+  render(false);
+  announce('Прогресс очищен. Квест начат заново.');
 }
 
-function isCurrentLocked() {
-  if (appState.completed) {
-    return true;
+function swapStage(newHtml, animated) {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const current = ui.stage.firstElementChild;
+
+  if (!animated || prefersReduced || !current) {
+    ui.stage.innerHTML = newHtml;
+    const card = ui.stage.firstElementChild;
+    if (card) card.classList.add('enter');
+    return;
   }
-  return appState.stepResults[appState.currentStep].locked;
+
+  current.classList.add('leave');
+  current.addEventListener(
+    'animationend',
+    () => {
+      ui.stage.innerHTML = newHtml;
+      const card = ui.stage.firstElementChild;
+      if (card) card.classList.add('enter');
+    },
+    { once: true }
+  );
 }
 
-function getCurrentStep() {
-  if (appState.completed) {
-    return null;
+function currentStep() {
+  return steps[state.currentStep];
+}
+
+function currentStepState() {
+  return state.stepStates[state.currentStep];
+}
+
+function totalScore() {
+  return state.stepStates.reduce((sum, stepState) => sum + normalizeScore(stepState.bestScore), 0);
+}
+
+function normalizeScore(value) {
+  const score = Number(value);
+  return SCORE_SET.includes(score) ? score : 0;
+}
+
+function shuffledIndices(length) {
+  const base = Array.from({ length }, (_, i) => i);
+  const result = shuffle(base);
+  if (arraysEqual(result, base)) {
+    result.reverse();
   }
-  return QUEST_STEPS[appState.currentStep];
+  return result;
 }
 
-function getCurrentResult() {
-  if (appState.completed) {
-    return null;
+function countPositionMatches(left, right) {
+  let count = 0;
+  const len = Math.min(left.length, right.length);
+  for (let i = 0; i < len; i += 1) {
+    if (left[i] === right[i]) count += 1;
   }
-  return appState.stepResults[appState.currentStep];
+  return count;
 }
 
-function getCurrentSnapshot() {
-  return appState.stepResults[appState.currentStep].answerSnapshot;
+function insideRect(x, y, rect, expand) {
+  const left = rect.x - expand;
+  const top = rect.y - expand;
+  const right = rect.x + rect.w + expand;
+  const bottom = rect.y + rect.h + expand;
+  return x >= left && x <= right && y >= top && y <= bottom;
 }
 
-function countMatches(actual, expected) {
-  let matches = 0;
-  const len = Math.min(actual.length, expected.length);
-  for (let index = 0; index < len; index += 1) {
-    if (actual[index] === expected[index]) {
-      matches += 1;
-    }
-  }
-  return matches;
+function moveInArray(array, from, to) {
+  if (from === to) return;
+  const copy = array;
+  const [item] = copy.splice(from, 1);
+  copy.splice(to, 0, item);
 }
 
 function normalizeText(value) {
@@ -1472,20 +1215,47 @@ function normalizeText(value) {
     .replace(/\s+/g, ' ');
 }
 
-function arraysEqual(left, right) {
-  if (left.length !== right.length) {
-    return false;
+function formatCode(value) {
+  return new Intl.NumberFormat('ru-RU').format(value);
+}
+
+function shuffle(array) {
+  const clone = [...array];
+  for (let i = clone.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [clone[i], clone[j]] = [clone[j], clone[i]];
   }
-  for (let index = 0; index < left.length; index += 1) {
-    if (left[index] !== right[index]) {
-      return false;
-    }
+  return clone;
+}
+
+function arraysEqual(a, b) {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i += 1) {
+    if (a[i] !== b[i]) return false;
   }
   return true;
 }
 
-function formatTenge(value) {
-  return `${new Intl.NumberFormat('ru-RU').format(value)} ₸`;
+function uniqueInts(values, min, max) {
+  const unique = new Set();
+  values.forEach((value) => {
+    if (Number.isInteger(value) && value >= min && value <= max) {
+      unique.add(value);
+    }
+  });
+  return [...unique];
+}
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function clampInt(value, min, max) {
+  return Math.min(max, Math.max(min, Math.trunc(Number(value) || 0)));
+}
+
+function announce(text) {
+  ui.live.textContent = text;
 }
 
 function escapeHtml(value) {
@@ -1495,43 +1265,4 @@ function escapeHtml(value) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
-}
-
-function announce(text) {
-  liveRegion.textContent = text;
-}
-
-function shuffle(array) {
-  const list = [...array];
-  for (let i = list.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [list[i], list[j]] = [list[j], list[i]];
-  }
-  return list;
-}
-
-function swapArrayPositions(array, first, second) {
-  [array[first], array[second]] = [array[second], array[first]];
-}
-
-function uniqueInts(values, min, max) {
-  const set = new Set();
-  values.forEach((value) => {
-    if (Number.isInteger(value) && value >= min && value <= max) {
-      set.add(value);
-    }
-  });
-  return Array.from(set);
-}
-
-function clamp(number, min, max) {
-  return Math.max(min, Math.min(max, number));
-}
-
-function clampInt(number, min, max) {
-  return Math.max(min, Math.min(max, Math.trunc(number)));
-}
-
-function isFiniteNumber(value) {
-  return typeof value === 'number' && Number.isFinite(value);
 }
