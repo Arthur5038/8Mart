@@ -2,33 +2,34 @@
 
 const STORAGE_KEY = 'quest_8mart_v1';
 const SCORE_SET = [0, 5, 10];
+const TASK_COUNT = 10;
 
 const steps = [
   {
     id: 'hotspot_secret_kiss',
     type: 'hotspot',
     title: 'Шаг 1. Карта к поцелую (ультра секрет)',
-    text: 'Алина, представь: это фото нас, которое я еще не добавил. Нажми в то место, где я обычно зависаю взглядом перед тем, как украсть поцелуй.',
-    hint: 'Я всегда немного правее центра и чуть выше, как будто выбираю угол атаки романтики.',
+    text: 'Алина, представь: это фото нас, которое я еще не добавил. Тыкни в место, где я обычно зависаю взглядом перед тем, как украсть поцелуй.',
+    hint: 'Немного правее центра и чуть выше. Там стартует миссия «влюбленный хищник».',
     scoring: { full: 10, partial: 5, wrong: 0 },
     correct: {
-      zone: { x: 58, y: 38, w: 16, h: 18 }
+      correctRect: { x: 56, y: 32, w: 20, h: 24 }
     },
     partialRules: {
-      expandPxPercent: 8
+      nearDistance: 8
     },
     uiOptions: {
-      placeholderTitle: 'Зона нежности',
+      placeholderTitle: 'Секретная зона на фото',
       placeholderSubtitle: 'Фото добавим позже',
-      helper: 'Клик по карточке или выстави координаты X/Y ползунками.'
+      helper: 'Нажми в любую точку карточки. Маркер зафиксирует выбор.'
     }
   },
   {
     id: 'months_together',
     type: 'number',
     title: 'Шаг 2. Арифметика любви',
-    text: 'Сколько месяцев мы вместе на 8 марта 2026, если август считается? Не торопись, калькулятор в голове тоже sexy.',
-    hint: 'Ответ рядом с числом 32. Прям очень рядом.',
+    text: 'Сколько месяцев мы вместе на 8 марта 2026, если август считается?',
+    hint: '32 — это не номер квартиры, а правильный ответ.',
     scoring: { full: 10, partial: 5, wrong: 0 },
     correct: {
       value: 32
@@ -45,8 +46,8 @@ const steps = [
     id: 'code_phrase',
     type: 'text',
     title: 'Шаг 3. Наш шифр от скуки',
-    text: 'Введи наше кодовое словечко/фразу. То самое, после которого у меня лицо дурачка и желание срочно тебя обнять.',
-    hint: 'Ключевой корень: булоч. Да, ты официально слишком вкусная для моего самоконтроля.',
+    text: 'Введи наше кодовое словечко/фразу. После него у меня лицо счастливого идиота.',
+    hint: 'Ключевой корень: булоч.',
     scoring: { full: 10, partial: 5, wrong: 0 },
     correct: {
       answers: [
@@ -67,9 +68,9 @@ const steps = [
   {
     id: 'choice_funny_love',
     type: 'choice3',
-    title: 'Шаг 4. Что я в тебе люблю больше всего (шутка, но не совсем)',
-    text: 'Выбери один вариант. Это тест, где любой ответ милый, но один особенно преступно правдивый.',
-    hint: 'Я таю от твоего мозга и от того, как ты меня красиво ставишь на место.',
+    title: 'Шаг 4. Что я в тебе люблю больше всего (шутка, но нет)',
+    text: 'Выбери один вариант. Тут сложно ошибиться, но можно.',
+    hint: 'Твой ум и характер меня регулярно обезоруживают.',
     scoring: { full: 10, partial: 5, wrong: 0 },
     correct: {
       value: 'mind'
@@ -87,10 +88,10 @@ const steps = [
   },
   {
     id: 'drag_phrase',
-    type: 'phrase_dnd',
+    type: 'phrase_drag',
     title: 'Шаг 5. Собери фразу Артура',
-    text: 'Перетащи слова в правильном порядке. Это мой официальный приговор твоей красоте.',
-    hint: 'Начинается с «Алина», заканчивается «мурашек».',
+    text: 'Перетащи слова мышкой или пальцем в правильном порядке.',
+    hint: 'Начало: «Алина, ты». Конец: «и мурашек».',
     scoring: { full: 10, partial: 5, wrong: 0 },
     correct: {
       order: [0, 1, 2, 3, 4, 5, 6]
@@ -99,15 +100,16 @@ const steps = [
       minCorrectPositions: 5
     },
     uiOptions: {
-      words: ['Алина,', 'ты', 'моя', 'любимая', 'причина', 'улыбки', 'и мурашек']
+      words: ['Алина,', 'ты', 'моя', 'любимая', 'причина', 'улыбки', 'и мурашек'],
+      helper: 'Перетаскивай слова прямо в строке. Без слотов, только хаос и романтика.'
     }
   },
   {
     id: 'select_two_cards',
     type: 'select_2_of_4',
     title: 'Шаг 6. Выбери 2 идеальных кадра свидания',
-    text: 'Фото еще не готовы, поэтому карточки-заглушки. Отметь два кадра, которые я бы выбрал для нашего мини-фильма.',
-    hint: 'Там, где уют и киношная романтика, а не мой позорный танец.',
+    text: 'Фото пока не готовы, поэтому заглушки. Отметь два кадра, которые я бы выбрал.',
+    hint: 'Где плед и кино — там я и мое счастливое лицо.',
     scoring: { full: 10, partial: 5, wrong: 0 },
     correct: {
       ids: ['candles', 'movie']
@@ -128,8 +130,8 @@ const steps = [
     id: 'timeline_reorder',
     type: 'reorder_4',
     title: 'Шаг 7. Хронология наших мемов',
-    text: 'Расположи 4 события по времени. Если ошибешься, ничего страшного: в любви важнее вайб, чем архив.',
-    hint: 'Сначала знакомство, потом первый cringe-мем, дальше первое свидание, потом наш режим «мы странные и счастливые».',
+    text: 'Расположи 4 события по времени.',
+    hint: 'Знакомство -> мем -> свидание -> режим «мы странные и счастливые».',
     scoring: { full: 10, partial: 5, wrong: 0 },
     correct: {
       order: [0, 1, 2, 3]
@@ -150,8 +152,8 @@ const steps = [
     id: 'memory_pairs',
     type: 'memory_6',
     title: 'Шаг 8. Память сердца (и нервов)',
-    text: 'Открой все пары из 6 карточек. Это как отношения: главное — не паниковать после второго промаха.',
-    hint: 'Если увидела символ, попробуй сразу запомнить его соседей по прошлым фейлам.',
+    text: 'Открой все пары из 6 карточек.',
+    hint: 'Запоминай не только символ, но и где он лежал после фейла.',
     scoring: { full: 10, partial: 5, wrong: 0 },
     correct: {
       totalPairs: 3
@@ -169,32 +171,29 @@ const steps = [
     }
   },
   {
-    id: 'range_missing',
-    type: 'range',
-    title: 'Шаг 9. Индекс скучаю по Алине',
-    text: 'От 0 до 100: насколько я скучаю по тебе, если мы не виделись ровно день?',
-    hint: 'Это число настолько большое, что выглядит как признание в любви с перегревом.',
-    scoring: { full: 10, partial: 5, wrong: 0 },
+    id: 'infinity_years',
+    type: 'infinity_range',
+    title: 'Шаг 9. Вопрос с подвохом',
+    text: 'Сколько лет мы с тобой будем вместе?',
+    hint: 'Иногда правильный ответ не помещается в обычный диапазон.',
+    scoring: { full: 10, partial: 0, wrong: 0 },
     correct: {
-      value: 97
+      threshold: 110
     },
-    partialRules: {
-      fullTolerance: 2,
-      partialTolerance: 7
-    },
+    partialRules: {},
     uiOptions: {
       min: 0,
       max: 100,
-      step: 1,
-      start: 50
+      start: 50,
+      helper: 'Потяни бегунок вправо. Очень вправо.'
     }
   },
   {
     id: 'choose_two_truths',
     type: 'choose_2_of_4',
     title: 'Шаг 10. Две правды про Артура',
-    text: 'Выбери 2 правдивых утверждения. Остальные — художественный бред, но почти похожий на меня.',
-    hint: 'Правда там, где я мягкий к тебе и где WhatsApp у нас как отдельный язык.',
+    text: 'Выбери 2 правдивых утверждения.',
+    hint: 'Правда там, где WhatsApp и где я таю рядом с тобой.',
     scoring: { full: 10, partial: 5, wrong: 0 },
     correct: {
       ids: ['soft', 'wa']
@@ -226,7 +225,10 @@ const ui = {
 };
 
 let memoryTimeout = null;
+let infinityAdvanceTimeout = null;
 let dragPayload = null;
+let phrasePointerDrag = null;
+let infinityPointerDrag = null;
 
 let state = loadState() || createInitialState();
 
@@ -235,32 +237,36 @@ render(false);
 
 function bindEvents() {
   ui.backBtn.addEventListener('click', () => {
-    if (state.currentStep > 0) {
-      state.currentStep -= 1;
+    if (state.completed) return;
+    if (state.currentScreen > 0) {
+      state.currentScreen -= 1;
       saveState();
       render(true);
-      announce(`Шаг ${state.currentStep + 1}`);
+      announce(state.currentScreen === 0 ? 'Приветствие' : `Шаг ${state.currentScreen}/10`);
     }
   });
 
   ui.nextBtn.addEventListener('click', () => {
-    if (state.completed) return;
+    if (state.completed || state.currentScreen === 0) return;
 
-    const current = state.stepStates[state.currentStep];
-    if (!current.attempted) return;
+    const taskIndex = screenToTaskIndex(state.currentScreen);
+    if (taskIndex < 0) return;
 
-    if (state.currentStep === steps.length - 1) {
+    const taskState = state.stepStates[taskIndex];
+    if (!taskState.attempted) return;
+
+    if (taskIndex === TASK_COUNT - 1) {
       state.completed = true;
       saveState();
       render(true);
-      announce('Все шаги завершены. Показан финальный код.');
+      announce('Квест завершен.');
       return;
     }
 
-    state.currentStep += 1;
+    state.currentScreen += 1;
     saveState();
     render(true);
-    announce(`Шаг ${state.currentStep + 1}`);
+    announce(`Шаг ${state.currentScreen}/10`);
   });
 
   ui.stage.addEventListener('click', onStageClick);
@@ -270,11 +276,12 @@ function bindEvents() {
   ui.stage.addEventListener('dragstart', onStageDragStart);
   ui.stage.addEventListener('dragover', onStageDragOver);
   ui.stage.addEventListener('drop', onStageDrop);
+  ui.stage.addEventListener('pointerdown', onStagePointerDown);
 }
 
 function createInitialState() {
   return {
-    currentStep: 0,
+    currentScreen: 0,
     completed: false,
     stepStates: steps.map((step) => ({
       attempted: false,
@@ -289,14 +296,14 @@ function createInitialState() {
 function defaultUserData(step) {
   switch (step.type) {
     case 'hotspot':
-      return { x: null, y: null };
+      return { clickX: null, clickY: null };
     case 'number':
       return { value: '' };
     case 'text':
       return { value: '' };
     case 'choice3':
       return { value: '' };
-    case 'phrase_dnd':
+    case 'phrase_drag':
       return { order: shuffledIndices(step.uiOptions.words.length) };
     case 'select_2_of_4':
       return { selected: [] };
@@ -312,8 +319,12 @@ function defaultUserData(step) {
         busy: false
       };
     }
-    case 'range':
-      return { value: step.uiOptions.start };
+    case 'infinity_range':
+      return {
+        rawPos: step.uiOptions.start,
+        isInfinity: false,
+        autoDone: false
+      };
     case 'choose_2_of_4':
       return { selected: [] };
     default:
@@ -328,19 +339,30 @@ function loadState() {
 
     const parsed = JSON.parse(raw);
     if (!parsed || typeof parsed !== 'object') return null;
-    if (!Array.isArray(parsed.stepStates) || parsed.stepStates.length !== steps.length) return null;
 
     const initial = createInitialState();
+    const sourceStepStates = Array.isArray(parsed.stepStates) ? parsed.stepStates : null;
+
+    if (!sourceStepStates || sourceStepStates.length !== TASK_COUNT) {
+      return null;
+    }
+
     const safe = {
-      currentStep: clampInt(parsed.currentStep ?? 0, 0, steps.length - 1),
+      currentScreen: 0,
       completed: Boolean(parsed.completed),
       stepStates: initial.stepStates
     };
 
-    safe.stepStates = parsed.stepStates.map((item, index) => sanitizeStepState(item, steps[index]));
+    safe.stepStates = sourceStepStates.map((item, index) => sanitizeStepState(item, steps[index]));
+
+    if (Number.isInteger(parsed.currentScreen)) {
+      safe.currentScreen = clampInt(parsed.currentScreen, 0, TASK_COUNT);
+    } else if (Number.isInteger(parsed.currentStep)) {
+      safe.currentScreen = clampInt(parsed.currentStep + 1, 0, TASK_COUNT);
+    }
 
     if (safe.completed) {
-      safe.currentStep = steps.length - 1;
+      safe.currentScreen = TASK_COUNT;
     }
 
     return safe;
@@ -358,9 +380,7 @@ function sanitizeStepState(rawState, step) {
     userData: defaultUserData(step)
   };
 
-  if (!rawState || typeof rawState !== 'object') {
-    return defaults;
-  }
+  if (!rawState || typeof rawState !== 'object') return defaults;
 
   return {
     attempted: Boolean(rawState.attempted),
@@ -378,8 +398,8 @@ function sanitizeUserData(step, rawData) {
   switch (step.type) {
     case 'hotspot':
       return {
-        x: Number.isFinite(data.x) ? clamp(data.x, 0, 100) : null,
-        y: Number.isFinite(data.y) ? clamp(data.y, 0, 100) : null
+        clickX: Number.isFinite(data.clickX) ? clamp(data.clickX, 0, 100) : null,
+        clickY: Number.isFinite(data.clickY) ? clamp(data.clickY, 0, 100) : null
       };
 
     case 'number':
@@ -391,55 +411,71 @@ function sanitizeUserData(step, rawData) {
     case 'choice3':
       return { value: typeof data.value === 'string' ? data.value : '' };
 
-    case 'phrase_dnd':
+    case 'phrase_drag':
     case 'reorder_4': {
-      const expected = step.type === 'phrase_dnd' ? base.order : base.order;
       if (!Array.isArray(data.order)) return base;
       const order = data.order.filter(Number.isInteger);
+      const expected = base.order;
+
       if (order.length !== expected.length) return base;
       if (new Set(order).size !== expected.length) return base;
+
       const max = expected.length - 1;
       for (const value of order) {
         if (value < 0 || value > max) return base;
       }
+
       return { order };
     }
 
-    case 'select_2_of_4':
-    case 'choose_2_of_4': {
-      if (!Array.isArray(data.selected)) return base;
-      const allowed = step.type === 'select_2_of_4'
-        ? step.uiOptions.cards.map((card) => card.id)
-        : step.uiOptions.options.map((option) => option.id);
+    case 'select_2_of_4': {
+      const allowed = step.uiOptions.cards.map((card) => card.id);
+      return { selected: sanitizeSelected(data.selected, allowed) };
+    }
 
-      const selected = [];
-      data.selected.forEach((id) => {
-        if (typeof id === 'string' && allowed.includes(id) && !selected.includes(id)) {
-          selected.push(id);
-        }
-      });
-      return { selected };
+    case 'choose_2_of_4': {
+      const allowed = step.uiOptions.options.map((option) => option.id);
+      return { selected: sanitizeSelected(data.selected, allowed) };
     }
 
     case 'memory_6': {
       if (!Array.isArray(data.deck) || data.deck.length !== 6) return base;
-      const revealed = Array.isArray(data.revealed) ? uniqueInts(data.revealed, 0, 5).slice(0, 2) : [];
-      const matched = Array.isArray(data.matched) ? uniqueInts(data.matched, 0, 5) : [];
+
       return {
         deck: data.deck,
-        revealed,
-        matched,
+        revealed: Array.isArray(data.revealed) ? uniqueInts(data.revealed, 0, 5).slice(0, 2) : [],
+        matched: Array.isArray(data.matched) ? uniqueInts(data.matched, 0, 5) : [],
         misses: Number.isInteger(data.misses) ? Math.max(0, data.misses) : 0,
         busy: Boolean(data.busy)
       };
     }
 
-    case 'range':
-      return { value: Number.isFinite(data.value) ? clamp(data.value, step.uiOptions.min, step.uiOptions.max) : step.uiOptions.start };
+    case 'infinity_range': {
+      const rawPos = Number.isFinite(data.rawPos) ? clamp(data.rawPos, 0, 130) : step.uiOptions.start;
+      const isInfinity = Boolean(data.isInfinity) || rawPos > step.correct.threshold;
+      return {
+        rawPos,
+        isInfinity,
+        autoDone: Boolean(data.autoDone)
+      };
+    }
 
     default:
       return base;
   }
+}
+
+function sanitizeSelected(value, allowed) {
+  if (!Array.isArray(value)) return [];
+  const selected = [];
+
+  value.forEach((id) => {
+    if (typeof id === 'string' && allowed.includes(id) && !selected.includes(id)) {
+      selected.push(id);
+    }
+  });
+
+  return selected;
 }
 
 function saveState() {
@@ -448,10 +484,17 @@ function saveState() {
 
 function render(animated) {
   const total = totalScore();
-  const attemptedCount = state.stepStates.filter((stepState) => stepState.attempted).length;
-  const progress = state.completed ? 100 : Math.round((attemptedCount / steps.length) * 100);
+  const attemptedCount = state.stepStates.filter((item) => item.attempted).length;
+  const progress = state.completed ? 100 : Math.round((attemptedCount / TASK_COUNT) * 100);
 
-  ui.stepLabel.textContent = state.completed ? 'Финал' : `Шаг ${state.currentStep + 1}/${steps.length}`;
+  if (state.completed) {
+    ui.stepLabel.textContent = 'Финал';
+  } else if (state.currentScreen === 0) {
+    ui.stepLabel.textContent = 'Приветствие (Шаг 0/10)';
+  } else {
+    ui.stepLabel.textContent = `Шаг ${state.currentScreen}/10`;
+  }
+
   ui.scoreLabel.textContent = `Очки: ${total}/100`;
   ui.progressBar.style.width = `${progress}%`;
   ui.progressWrap.setAttribute('aria-valuenow', String(progress));
@@ -462,31 +505,58 @@ function render(animated) {
     return;
   }
 
-  ui.navigation.hidden = false;
-  ui.backBtn.disabled = state.currentStep === 0;
-  ui.nextBtn.disabled = !state.stepStates[state.currentStep].attempted;
-  ui.nextBtn.textContent = state.currentStep === steps.length - 1 ? 'К финалу' : 'Дальше';
+  if (state.currentScreen === 0) {
+    ui.navigation.hidden = true;
+    swapStage(renderIntro(), animated);
+    return;
+  }
 
-  const step = steps[state.currentStep];
-  const stepState = state.stepStates[state.currentStep];
-  swapStage(renderStep(step, stepState), animated);
+  const taskIndex = screenToTaskIndex(state.currentScreen);
+  const taskState = state.stepStates[taskIndex];
+
+  ui.navigation.hidden = false;
+  ui.backBtn.disabled = state.currentScreen === 0;
+  ui.nextBtn.disabled = !taskState.attempted;
+  ui.nextBtn.textContent = taskIndex === TASK_COUNT - 1 ? 'К финалу' : 'Дальше';
+
+  swapStage(renderTask(steps[taskIndex], taskState, taskIndex), animated);
 }
 
-function renderStep(step, stepState) {
+function renderIntro() {
+  return `
+    <article class="glass step-card intro-card">
+      <h2 class="step-title">Алина, с 8 марта!</h2>
+      <p class="step-text">Я подготовил для тебя маленький квест-тест. Тут будет мило, странно, местами дерзко, но всё по любви.</p>
+      <div class="media-placeholder">
+        <div class="media-title">Артур запускает режим романтика</div>
+        <p class="caption">10 заданий, где ты официально самая лучшая.</p>
+        <span class="media-tag">Фото добавим позже</span>
+      </div>
+      <div class="controls">
+        <button class="btn btn-primary" type="button" data-action="start-quest">Поехали</button>
+        <button class="btn btn-danger" type="button" data-action="reset">Сбросить квест</button>
+      </div>
+    </article>
+  `;
+}
+
+function renderTask(step, stepState, taskIndex) {
   const feedback = stepState.lastScore === null
     ? 'Пока проверки не было. Нажми «Проверить/Засчитать».'
     : `Последняя проверка: <strong>${stepState.lastScore}</strong>, лучший результат: <strong>${stepState.bestScore}</strong>.`;
 
+  const media = renderMediaPlaceholder(step);
+
   return `
-    <article class="glass step-card">
+    <article class="glass step-card" data-step-id="${escapeHtml(step.id)}">
       <h2 class="step-title">${escapeHtml(step.title)}</h2>
       <p class="step-text">${escapeHtml(step.text)}</p>
 
-      ${renderMediaPlaceholder(step)}
+      ${media}
 
       <section class="task-card">
         <p class="caption">${escapeHtml(step.uiOptions.helper || 'Выполни задание и нажми проверку.')}</p>
-        ${renderTaskByType(step, stepState)}
+        ${renderTaskByType(step, stepState, taskIndex)}
       </section>
 
       <div class="controls">
@@ -514,29 +584,22 @@ function renderMediaPlaceholder(step) {
   `;
 }
 
-function renderTaskByType(step, stepState) {
+function renderTaskByType(step, stepState, taskIndex) {
   const data = stepState.userData;
 
   switch (step.type) {
     case 'hotspot': {
-      const marker = data.x === null || data.y === null
+      const marker = data.clickX === null || data.clickY === null
         ? ''
-        : `<span class="hotspot-marker" style="left:${data.x}%; top:${data.y}%"></span>`;
+        : `<span class="hotspot-marker" style="left:${data.clickX}%; top:${data.clickY}%"></span>`;
 
       return `
         <div class="hotspot-grid">
-          <div class="hotspot-box" id="hotspotBox" data-action="hotspot-click" tabindex="0" aria-label="Область выбора скрытой зоны">
-            <div class="caption">Найди невидимую зону кликом.</div>
+          <div class="hotspot-box" data-action="hotspot-click" tabindex="0" aria-label="Область выбора точки">
+            <div class="caption">Нажми в любую точку карточки.</div>
             ${marker}
           </div>
-
-          <label class="caption" for="hotspotX">Координата X</label>
-          <input id="hotspotX" class="hotspot-range" type="range" min="0" max="100" value="${data.x === null ? 50 : Math.round(data.x)}" />
-
-          <label class="caption" for="hotspotY">Координата Y</label>
-          <input id="hotspotY" class="hotspot-range" type="range" min="0" max="100" value="${data.y === null ? 50 : Math.round(data.y)}" />
-
-          <p class="caption">${data.x === null ? 'Точка пока не выбрана.' : `Текущая точка: ${Math.round(data.x)} / ${Math.round(data.y)}`}</p>
+          <p class="caption">${data.clickX === null ? 'Точка пока не выбрана.' : `Выбрано: ${Math.round(data.clickX)} / ${Math.round(data.clickY)}`}</p>
         </div>
       `;
     }
@@ -567,12 +630,27 @@ function renderTaskByType(step, stepState) {
         </div>
       `;
 
-    case 'phrase_dnd':
-      return renderSortableList({
-        type: 'phrase_dnd',
-        order: data.order,
-        labels: step.uiOptions.words
-      });
+    case 'phrase_drag': {
+      return `
+        <div class="phrase-wrap" data-phrase-wrap>
+          <div class="phrase-line" data-phrase-line>
+            ${data.order
+              .map((wordIndex, position) => `
+                <button
+                  type="button"
+                  class="phrase-chip"
+                  draggable="true"
+                  data-action="phrase-chip"
+                  data-position="${position}"
+                  data-word-index="${wordIndex}"
+                >${escapeHtml(step.uiOptions.words[wordIndex])}</button>
+              `)
+              .join('')}
+          </div>
+          <p class="caption">${escapeHtml(step.uiOptions.helper)}</p>
+        </div>
+      `;
+    }
 
     case 'select_2_of_4':
       return `
@@ -615,6 +693,7 @@ function renderTaskByType(step, stepState) {
               const show = opened.has(index) || matched.has(index);
               const doneClass = matched.has(index) ? 'done' : show ? 'show' : '';
               const text = show ? pairMap.get(pairId) : '?';
+
               return `
                 <button
                   type="button"
@@ -630,21 +709,21 @@ function renderTaskByType(step, stepState) {
       `;
     }
 
-    case 'range':
+    case 'infinity_range': {
+      const display = data.isInfinity ? 'Бесконечность' : String(Math.round(clamp(data.rawPos, 0, 100)));
+      const knobLeft = clamp(data.rawPos, 0, 130);
+      const fillWidth = clamp(data.rawPos, 0, 100);
+
       return `
-        <div class="range-row">
-          <input
-            id="rangeAnswer"
-            class="range"
-            type="range"
-            min="${step.uiOptions.min}"
-            max="${step.uiOptions.max}"
-            step="${step.uiOptions.step}"
-            value="${data.value}"
-          />
-          <span id="rangeValue" class="range-value">${data.value}</span>
+        <div class="infinity-wrap" data-infinity-wrap>
+          <div class="infinity-track" data-action="infinity-start" tabindex="0" aria-label="Слайдер бесконечности">
+            <div class="infinity-fill" id="infinityFill" style="width:${fillWidth}%"></div>
+            <div class="infinity-knob" id="infinityKnob" data-action="infinity-start" style="left:${knobLeft}%"></div>
+          </div>
+          <p class="caption">Ответ: <strong id="infinityValue">${display}</strong></p>
         </div>
       `;
+    }
 
     case 'choose_2_of_4':
       return `
@@ -676,52 +755,32 @@ function renderSortableList({ type, order, labels }) {
   return `
     <ul class="sort-list" data-sort-type="${type}">
       ${order
-        .map((itemIndex, position) => {
-          return `
-            <li class="sort-item" draggable="true" data-action="sort-item" data-sort-type="${type}" data-position="${position}">
-              <span>${escapeHtml(labels[itemIndex])}</span>
-              <span class="sort-controls">
-                <button type="button" class="icon-btn" data-action="sort-up" data-sort-type="${type}" data-position="${position}" aria-label="Поднять">↑</button>
-                <button type="button" class="icon-btn" data-action="sort-down" data-sort-type="${type}" data-position="${position}" aria-label="Опустить">↓</button>
-              </span>
-            </li>
-          `;
-        })
+        .map((itemIndex, position) => `
+          <li class="sort-item" draggable="true" data-action="sort-item" data-sort-type="${type}" data-position="${position}">
+            <span>${escapeHtml(labels[itemIndex])}</span>
+            <span class="sort-controls">
+              <button type="button" class="icon-btn" data-action="sort-up" data-sort-type="${type}" data-position="${position}" aria-label="Поднять">↑</button>
+              <button type="button" class="icon-btn" data-action="sort-down" data-sort-type="${type}" data-position="${position}" aria-label="Опустить">↓</button>
+            </span>
+          </li>
+        `)
         .join('')}
     </ul>
   `;
 }
 
 function renderFinal() {
-  const rows = steps
-    .map((step, index) => {
-      const score = state.stepStates[index].bestScore;
-      return `<tr><td>${index + 1}</td><td>${escapeHtml(step.title)}</td><td>${score}</td></tr>`;
-    })
-    .join('');
-
   const total = totalScore();
-  const code = (total / 2) * 1000;
+  const code = String((total / 2) * 1000);
 
   return `
     <article class="glass final-card">
       <h2 class="step-title">Финал, Алина</h2>
-      <p class="step-text">Ты прошла весь маршрут. Ниже твой результат и секретный код.</p>
+      <p class="step-text">Ты прошла весь маршрут.</p>
 
-      <table class="final-table">
-        <thead>
-          <tr>
-            <th>Шаг</th>
-            <th>Задание</th>
-            <th>Очки</th>
-          </tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>
-
-      <p><strong>totalScore:</strong> ${total}</p>
-      <p><strong>Секретное число:</strong></p>
-      <div class="secret-code">${formatCode(code)}</div>
+      <p><strong>Total score:</strong> ${total}/100</p>
+      <p><strong>Твой код:</strong></p>
+      <div class="secret-code">${code}</div>
       <p class="step-text">Отправь мне этот код в WhatsApp.</p>
 
       <div class="controls">
@@ -737,23 +796,46 @@ function onStageClick(event) {
 
   const action = target.dataset.action;
 
+  if (action === 'close-low-overlay') {
+    hideLowValueOverlay();
+    return;
+  }
+
   if (action === 'restart') {
     resetQuest();
     return;
   }
 
-  if (state.completed) return;
+  if (action === 'start-quest') {
+    if (!state.completed) {
+      state.currentScreen = 1;
+      saveState();
+      render(true);
+      announce('Шаг 1 из 10');
+    }
+    return;
+  }
 
-  const step = currentStep();
-  const stepState = currentStepState();
+  if (action === 'reset') {
+    resetQuest();
+    return;
+  }
+
+  if (state.completed || state.currentScreen === 0) return;
+
+  const taskIndex = screenToTaskIndex(state.currentScreen);
+  const step = steps[taskIndex];
+  const stepState = state.stepStates[taskIndex];
 
   switch (action) {
     case 'check': {
+      if (step.type === 'infinity_range' && !stepState.userData.isInfinity) {
+        showLowValueOverlay();
+        return;
+      }
+
       const score = evaluateStep(step, stepState.userData);
-      stepState.lastScore = score;
-      stepState.bestScore = Math.max(stepState.bestScore, score);
-      stepState.attempted = true;
-      saveState();
+      applyCheckResult(taskIndex, score);
       render(false);
       announce(`Проверка завершена. ${score} очков.`);
       break;
@@ -766,18 +848,13 @@ function onStageClick(event) {
       break;
     }
 
-    case 'reset': {
-      resetQuest();
-      break;
-    }
-
     case 'hotspot-click': {
       if (step.type !== 'hotspot') return;
       const rect = target.getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width) * 100;
-      const y = ((event.clientY - rect.top) / rect.height) * 100;
-      stepState.userData.x = clamp(x, 0, 100);
-      stepState.userData.y = clamp(y, 0, 100);
+      const clickX = ((event.clientX - rect.left) / rect.width) * 100;
+      const clickY = ((event.clientY - rect.top) / rect.height) * 100;
+      stepState.userData.clickX = clamp(clickX, 0, 100);
+      stepState.userData.clickY = clamp(clickY, 0, 100);
       saveState();
       render(false);
       break;
@@ -789,12 +866,12 @@ function onStageClick(event) {
     }
 
     case 'sort-up': {
-      moveSort(stepState, target.dataset.sortType, Number(target.dataset.position), -1);
+      moveSort(stepState, Number(target.dataset.position), -1);
       break;
     }
 
     case 'sort-down': {
-      moveSort(stepState, target.dataset.sortType, Number(target.dataset.position), 1);
+      moveSort(stepState, Number(target.dataset.position), 1);
       break;
     }
 
@@ -810,32 +887,11 @@ function onStageClick(event) {
 }
 
 function onStageInput(event) {
-  if (state.completed) return;
+  if (state.completed || state.currentScreen === 0) return;
 
-  const step = currentStep();
-  const stepState = currentStepState();
-
-  if (step.type === 'hotspot') {
-    if (event.target.id === 'hotspotX') {
-      stepState.userData.x = clamp(Number(event.target.value), 0, 100);
-      if (!Number.isFinite(stepState.userData.y)) {
-        stepState.userData.y = 50;
-      }
-      saveState();
-      render(false);
-      return;
-    }
-
-    if (event.target.id === 'hotspotY') {
-      stepState.userData.y = clamp(Number(event.target.value), 0, 100);
-      if (!Number.isFinite(stepState.userData.x)) {
-        stepState.userData.x = 50;
-      }
-      saveState();
-      render(false);
-      return;
-    }
-  }
+  const taskIndex = screenToTaskIndex(state.currentScreen);
+  const step = steps[taskIndex];
+  const stepState = state.stepStates[taskIndex];
 
   if (step.type === 'number' && event.target.id === 'numberAnswer') {
     stepState.userData.value = event.target.value;
@@ -846,24 +902,15 @@ function onStageInput(event) {
   if (step.type === 'text' && event.target.id === 'textAnswer') {
     stepState.userData.value = event.target.value;
     saveState();
-    return;
-  }
-
-  if (step.type === 'range' && event.target.id === 'rangeAnswer') {
-    stepState.userData.value = Number(event.target.value);
-    const valueEl = document.getElementById('rangeValue');
-    if (valueEl) {
-      valueEl.textContent = String(stepState.userData.value);
-    }
-    saveState();
   }
 }
 
 function onStageChange(event) {
-  if (state.completed) return;
+  if (state.completed || state.currentScreen === 0) return;
 
-  const step = currentStep();
-  const stepState = currentStepState();
+  const taskIndex = screenToTaskIndex(state.currentScreen);
+  const step = steps[taskIndex];
+  const stepState = state.stepStates[taskIndex];
 
   if (step.type === 'choice3' && event.target.name === 'choice3') {
     stepState.userData.value = event.target.value;
@@ -872,76 +919,381 @@ function onStageChange(event) {
 }
 
 function onStageKeydown(event) {
-  const hotspotBox = event.target.closest('#hotspotBox');
-  if (hotspotBox && (event.key === 'Enter' || event.key === ' ')) {
-    event.preventDefault();
-    const rect = hotspotBox.getBoundingClientRect();
-    const x = rect.width * 0.5;
-    const y = rect.height * 0.5;
+  if (state.completed || state.currentScreen === 0) return;
 
-    const stepState = currentStepState();
-    stepState.userData.x = (x / rect.width) * 100;
-    stepState.userData.y = (y / rect.height) * 100;
+  const taskIndex = screenToTaskIndex(state.currentScreen);
+  const step = steps[taskIndex];
+  const stepState = state.stepStates[taskIndex];
+
+  const hotspotBox = event.target.closest('.hotspot-box');
+  if (hotspotBox && step.type === 'hotspot' && (event.key === 'Enter' || event.key === ' ')) {
+    event.preventDefault();
+    stepState.userData.clickX = 50;
+    stepState.userData.clickY = 50;
     saveState();
     render(false);
+    return;
+  }
+
+  const phraseChip = event.target.closest('[data-action="phrase-chip"]');
+  if (phraseChip && step.type === 'phrase_drag') {
+    const pos = Number(phraseChip.dataset.position);
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      moveSort(stepState, pos, -1);
+      maybeAutoCompletePhrase(taskIndex);
+      return;
+    }
+
+    if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      moveSort(stepState, pos, 1);
+      maybeAutoCompletePhrase(taskIndex);
+      return;
+    }
+  }
+
+  const infinityTrack = event.target.closest('.infinity-track');
+  if (infinityTrack && step.type === 'infinity_range' && (event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
+    event.preventDefault();
+    const delta = event.key === 'ArrowRight' ? 2 : -2;
+    const data = stepState.userData;
+    data.rawPos = clamp(data.rawPos + delta, 0, 130);
+    data.isInfinity = data.rawPos > step.correct.threshold;
+    saveState();
+    render(false);
+
+    if (data.isInfinity && !data.autoDone) {
+      activateInfinityMode(taskIndex);
+    }
+  }
+}
+
+function onStagePointerDown(event) {
+  if (state.completed || state.currentScreen === 0) return;
+
+  const taskIndex = screenToTaskIndex(state.currentScreen);
+  const step = steps[taskIndex];
+
+  const phraseChip = event.target.closest('[data-action="phrase-chip"]');
+  if (phraseChip && step.type === 'phrase_drag') {
+    startPhrasePointerDrag(event, phraseChip);
+    return;
+  }
+
+  const infinityTarget = event.target.closest('[data-action="infinity-start"]');
+  if (infinityTarget && step.type === 'infinity_range') {
+    const track = infinityTarget.closest('.infinity-track');
+    if (!track) return;
+    startInfinityPointerDrag(event, track, taskIndex);
   }
 }
 
 function onStageDragStart(event) {
-  if (state.completed) return;
+  if (state.completed || state.currentScreen === 0) return;
 
-  const item = event.target.closest('[data-action="sort-item"]');
-  if (!item) return;
+  const taskIndex = screenToTaskIndex(state.currentScreen);
+  const step = steps[taskIndex];
 
-  dragPayload = {
-    sortType: item.dataset.sortType,
-    from: Number(item.dataset.position)
-  };
+  if (step.type === 'phrase_drag') {
+    const chip = event.target.closest('[data-action="phrase-chip"]');
+    if (!chip) return;
 
-  event.dataTransfer.effectAllowed = 'move';
+    dragPayload = {
+      type: 'phrase_drag',
+      from: Number(chip.dataset.position)
+    };
+
+    event.dataTransfer.effectAllowed = 'move';
+    return;
+  }
+
+  if (step.type === 'reorder_4') {
+    const item = event.target.closest('[data-action="sort-item"]');
+    if (!item) return;
+
+    dragPayload = {
+      type: 'reorder_4',
+      from: Number(item.dataset.position)
+    };
+
+    event.dataTransfer.effectAllowed = 'move';
+  }
 }
 
 function onStageDragOver(event) {
-  if (!dragPayload) return;
+  if (!dragPayload || state.completed || state.currentScreen === 0) return;
 
-  const item = event.target.closest('[data-action="sort-item"]');
-  if (!item) return;
+  const taskIndex = screenToTaskIndex(state.currentScreen);
+  const step = steps[taskIndex];
 
-  if (item.dataset.sortType === dragPayload.sortType) {
-    event.preventDefault();
+  if (dragPayload.type === 'phrase_drag' && step.type === 'phrase_drag') {
+    const target = event.target.closest('[data-action="phrase-chip"]');
+    if (target) event.preventDefault();
+    return;
+  }
+
+  if (dragPayload.type === 'reorder_4' && step.type === 'reorder_4') {
+    const target = event.target.closest('[data-action="sort-item"]');
+    if (target) event.preventDefault();
   }
 }
 
 function onStageDrop(event) {
-  if (!dragPayload || state.completed) return;
+  if (!dragPayload || state.completed || state.currentScreen === 0) return;
 
-  const item = event.target.closest('[data-action="sort-item"]');
-  if (!item) {
+  const taskIndex = screenToTaskIndex(state.currentScreen);
+  const step = steps[taskIndex];
+  const stepState = state.stepStates[taskIndex];
+
+  if (dragPayload.type === 'phrase_drag' && step.type === 'phrase_drag') {
+    const target = event.target.closest('[data-action="phrase-chip"]');
+    if (!target) {
+      dragPayload = null;
+      return;
+    }
+
+    event.preventDefault();
+    const to = Number(target.dataset.position);
+    moveInArray(stepState.userData.order, dragPayload.from, to);
     dragPayload = null;
+    maybeAutoCompletePhrase(taskIndex);
+    saveState();
+    render(false);
     return;
   }
 
-  const sortType = item.dataset.sortType;
-  if (sortType !== dragPayload.sortType) {
+  if (dragPayload.type === 'reorder_4' && step.type === 'reorder_4') {
+    const target = event.target.closest('[data-action="sort-item"]');
+    if (!target) {
+      dragPayload = null;
+      return;
+    }
+
+    event.preventDefault();
+    const to = Number(target.dataset.position);
+    moveInArray(stepState.userData.order, dragPayload.from, to);
     dragPayload = null;
+    saveState();
+    render(false);
     return;
   }
 
-  event.preventDefault();
-
-  const to = Number(item.dataset.position);
-  const stepState = currentStepState();
-  const key = sortType === 'phrase_dnd' ? 'order' : 'order';
-  moveInArray(stepState.userData[key], dragPayload.from, to);
   dragPayload = null;
-  saveState();
-  render(false);
 }
 
-function moveSort(stepState, sortType, from, delta) {
+function startPhrasePointerDrag(event, chip) {
+  if (event.button !== 0 && event.pointerType !== 'touch') return;
+
+  phrasePointerDrag = {
+    pointerId: event.pointerId,
+    chip,
+    from: Number(chip.dataset.position),
+    currentTarget: Number(chip.dataset.position),
+    startX: event.clientX,
+    startY: event.clientY,
+    active: false
+  };
+
+  chip.setPointerCapture(event.pointerId);
+  window.addEventListener('pointermove', onPhrasePointerMove);
+  window.addEventListener('pointerup', onPhrasePointerUp);
+  window.addEventListener('pointercancel', onPhrasePointerUp);
+}
+
+function onPhrasePointerMove(event) {
+  if (!phrasePointerDrag || event.pointerId !== phrasePointerDrag.pointerId) return;
+
+  const drag = phrasePointerDrag;
+  const dx = event.clientX - drag.startX;
+  const dy = event.clientY - drag.startY;
+
+  if (!drag.active && Math.hypot(dx, dy) > 6) {
+    drag.active = true;
+    drag.chip.classList.add('chip-dragging');
+  }
+
+  if (!drag.active) return;
+
+  drag.chip.style.transform = `translate(${dx}px, ${dy}px)`;
+
+  const line = drag.chip.closest('[data-phrase-line]');
+  if (!line) return;
+
+  const chips = Array.from(line.querySelectorAll('[data-action="phrase-chip"]'));
+  let nearestIndex = drag.from;
+  let nearestDistance = Infinity;
+
+  chips.forEach((chipEl) => {
+    const rect = chipEl.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dist = Math.hypot(event.clientX - cx, event.clientY - cy);
+    if (dist < nearestDistance) {
+      nearestDistance = dist;
+      nearestIndex = Number(chipEl.dataset.position);
+    }
+    chipEl.classList.remove('chip-target');
+  });
+
+  drag.currentTarget = nearestIndex;
+
+  const targetChip = chips.find((chipEl) => Number(chipEl.dataset.position) === nearestIndex);
+  if (targetChip && targetChip !== drag.chip) {
+    targetChip.classList.add('chip-target');
+  }
+}
+
+function onPhrasePointerUp(event) {
+  if (!phrasePointerDrag || event.pointerId !== phrasePointerDrag.pointerId) return;
+
+  const drag = phrasePointerDrag;
+  window.removeEventListener('pointermove', onPhrasePointerMove);
+  window.removeEventListener('pointerup', onPhrasePointerUp);
+  window.removeEventListener('pointercancel', onPhrasePointerUp);
+
+  const line = drag.chip.closest('[data-phrase-line]');
+  if (line) {
+    line.querySelectorAll('[data-action="phrase-chip"]').forEach((chipEl) => chipEl.classList.remove('chip-target'));
+  }
+
+  drag.chip.classList.remove('chip-dragging');
+  drag.chip.style.transform = '';
+
+  if (drag.active && drag.currentTarget !== drag.from && state.currentScreen > 0 && !state.completed) {
+    const taskIndex = screenToTaskIndex(state.currentScreen);
+    const step = steps[taskIndex];
+    if (step.type === 'phrase_drag') {
+      const stepState = state.stepStates[taskIndex];
+      moveInArray(stepState.userData.order, drag.from, drag.currentTarget);
+      maybeAutoCompletePhrase(taskIndex);
+      saveState();
+      render(false);
+    }
+  }
+
+  phrasePointerDrag = null;
+}
+
+function startInfinityPointerDrag(event, track, taskIndex) {
+  if (event.button !== 0 && event.pointerType !== 'touch') return;
+
+  infinityPointerDrag = {
+    pointerId: event.pointerId,
+    track,
+    taskIndex
+  };
+
+  track.setPointerCapture(event.pointerId);
+  window.addEventListener('pointermove', onInfinityPointerMove);
+  window.addEventListener('pointerup', onInfinityPointerUp);
+  window.addEventListener('pointercancel', onInfinityPointerUp);
+
+  updateInfinityByPointer(taskIndex, track, event.clientX);
+}
+
+function onInfinityPointerMove(event) {
+  if (!infinityPointerDrag || event.pointerId !== infinityPointerDrag.pointerId) return;
+  updateInfinityByPointer(infinityPointerDrag.taskIndex, infinityPointerDrag.track, event.clientX);
+}
+
+function onInfinityPointerUp(event) {
+  if (!infinityPointerDrag || event.pointerId !== infinityPointerDrag.pointerId) return;
+
+  window.removeEventListener('pointermove', onInfinityPointerMove);
+  window.removeEventListener('pointerup', onInfinityPointerUp);
+  window.removeEventListener('pointercancel', onInfinityPointerUp);
+
+  saveState();
+  infinityPointerDrag = null;
+}
+
+function updateInfinityByPointer(taskIndex, track, clientX) {
+  if (state.completed || state.currentScreen === 0) return;
+  if (screenToTaskIndex(state.currentScreen) !== taskIndex) return;
+
+  const step = steps[taskIndex];
+  const stepState = state.stepStates[taskIndex];
+  const rect = track.getBoundingClientRect();
+
+  const rawPercent = ((clientX - rect.left) / rect.width) * 100;
+  stepState.userData.rawPos = clamp(rawPercent, 0, 130);
+  stepState.userData.isInfinity = stepState.userData.rawPos > step.correct.threshold;
+
+  updateInfinityVisual(stepState.userData);
+
+  if (stepState.userData.isInfinity && !stepState.userData.autoDone) {
+    activateInfinityMode(taskIndex);
+  }
+}
+
+function updateInfinityVisual(data) {
+  const fill = document.getElementById('infinityFill');
+  const knob = document.getElementById('infinityKnob');
+  const value = document.getElementById('infinityValue');
+
+  if (fill) fill.style.width = `${clamp(data.rawPos, 0, 100)}%`;
+  if (knob) knob.style.left = `${clamp(data.rawPos, 0, 130)}%`;
+  if (value) value.textContent = data.isInfinity ? 'Бесконечность' : String(Math.round(clamp(data.rawPos, 0, 100)));
+}
+
+function activateInfinityMode(taskIndex) {
+  const stepState = state.stepStates[taskIndex];
+
+  stepState.userData.isInfinity = true;
+  stepState.userData.autoDone = true;
+  stepState.userData.rawPos = Math.max(stepState.userData.rawPos, 112);
+
+  applyCheckResult(taskIndex, 10);
+  launchConfetti();
+  render(false);
+  announce('Бесконечность принята. Переходим дальше.');
+
+  if (infinityAdvanceTimeout) {
+    clearTimeout(infinityAdvanceTimeout);
+  }
+
+  const delay = randomInt(800, 1200);
+  infinityAdvanceTimeout = window.setTimeout(() => {
+    if (state.completed) return;
+    if (state.currentScreen !== taskIndex + 1) return;
+
+    state.currentScreen += 1;
+    saveState();
+    render(true);
+  }, delay);
+}
+
+function applyCheckResult(taskIndex, score) {
+  const taskState = state.stepStates[taskIndex];
+  taskState.lastScore = score;
+  taskState.bestScore = Math.max(taskState.bestScore, score);
+  taskState.attempted = true;
+  saveState();
+}
+
+function maybeAutoCompletePhrase(taskIndex) {
+  const step = steps[taskIndex];
+  if (step.type !== 'phrase_drag') return;
+
+  const stepState = state.stepStates[taskIndex];
+  const matches = countPositionMatches(stepState.userData.order, step.correct.order);
+
+  if (matches === step.correct.order.length && stepState.bestScore < step.scoring.full) {
+    stepState.lastScore = step.scoring.full;
+    stepState.bestScore = step.scoring.full;
+    stepState.attempted = true;
+    saveState();
+    render(false);
+    announce('Пазл собран идеально. 10 очков.');
+  }
+}
+
+function moveSort(stepState, from, delta) {
   const to = from + delta;
   const order = stepState.userData.order;
   if (to < 0 || to >= order.length) return;
+
   moveInArray(order, from, to);
   saveState();
   render(false);
@@ -961,7 +1313,7 @@ function togglePick(step, stepState, id) {
   }
 
   if (selected.length >= 2) {
-    announce('Можно выбрать ровно 2 варианта. Сначала сними один.');
+    announce('Можно выбрать ровно 2 варианта.');
     return;
   }
 
@@ -972,7 +1324,6 @@ function togglePick(step, stepState, id) {
 
 function openMemoryCard(stepState, index) {
   const data = stepState.userData;
-
   if (data.busy) return;
   if (data.matched.includes(index)) return;
   if (data.revealed.includes(index)) return;
@@ -985,11 +1336,9 @@ function openMemoryCard(stepState, index) {
     return;
   }
 
-  const [a, b] = data.revealed;
-  const same = data.deck[a] === data.deck[b];
-
-  if (same) {
-    data.matched.push(a, b);
+  const [first, second] = data.revealed;
+  if (data.deck[first] === data.deck[second]) {
+    data.matched.push(first, second);
     data.revealed = [];
     saveState();
     render(false);
@@ -1005,32 +1354,33 @@ function openMemoryCard(stepState, index) {
     clearTimeout(memoryTimeout);
   }
 
-  const stepIndex = state.currentStep;
+  const stepIndexSnapshot = state.currentScreen;
   memoryTimeout = window.setTimeout(() => {
-    const safeState = state.stepStates[stepIndex];
-    if (!safeState) return;
+    if (state.currentScreen !== stepIndexSnapshot || state.completed) return;
 
-    safeState.userData.revealed = [];
-    safeState.userData.busy = false;
+    const currentTask = screenToTaskIndex(state.currentScreen);
+    if (currentTask < 0) return;
+
+    const currentData = state.stepStates[currentTask].userData;
+    currentData.revealed = [];
+    currentData.busy = false;
     saveState();
-    if (!state.completed && state.currentStep === stepIndex) {
-      render(false);
-    }
+    render(false);
   }, 700);
 }
 
 function evaluateStep(step, userData) {
   switch (step.type) {
     case 'hotspot': {
-      if (!Number.isFinite(userData.x) || !Number.isFinite(userData.y)) return 0;
+      if (!Number.isFinite(userData.clickX) || !Number.isFinite(userData.clickY)) return 0;
 
-      const zone = step.correct.zone;
-      if (insideRect(userData.x, userData.y, zone, 0)) {
-        return step.scoring.full;
-      }
+      const rect = step.correct.correctRect;
+      if (pointInRect(userData.clickX, userData.clickY, rect)) return step.scoring.full;
 
-      if (insideRect(userData.x, userData.y, zone, step.partialRules.expandPxPercent)) {
-        return step.scoring.partial;
+      const nearDistance = Number(step.partialRules.nearDistance || 0);
+      if (nearDistance > 0) {
+        const dist = pointRectDistance(userData.clickX, userData.clickY, rect);
+        if (dist <= nearDistance) return step.scoring.partial;
       }
 
       return step.scoring.wrong;
@@ -1064,7 +1414,7 @@ function evaluateStep(step, userData) {
       return step.scoring.wrong;
     }
 
-    case 'phrase_dnd': {
+    case 'phrase_drag': {
       const matches = countPositionMatches(userData.order, step.correct.order);
       if (matches === step.correct.order.length) return step.scoring.full;
       if (matches >= step.partialRules.minCorrectPositions) return step.scoring.partial;
@@ -1073,8 +1423,7 @@ function evaluateStep(step, userData) {
 
     case 'select_2_of_4': {
       if (userData.selected.length !== step.partialRules.requiredCount) return 0;
-      const correctIds = step.correct.ids;
-      const matched = userData.selected.filter((id) => correctIds.includes(id)).length;
+      const matched = userData.selected.filter((id) => step.correct.ids.includes(id)).length;
       if (matched === 2) return step.scoring.full;
       if (matched === 1) return step.scoring.partial;
       return step.scoring.wrong;
@@ -1093,16 +1442,13 @@ function evaluateStep(step, userData) {
         if (userData.misses <= step.partialRules.fullMaxMisses) return step.scoring.full;
         return step.scoring.partial;
       }
-
       if (pairs >= step.partialRules.partialMinPairs) return step.scoring.partial;
       return step.scoring.wrong;
     }
 
-    case 'range': {
-      const diff = Math.abs(Number(userData.value) - step.correct.value);
-      if (diff <= step.partialRules.fullTolerance) return step.scoring.full;
-      if (diff <= step.partialRules.partialTolerance) return step.scoring.partial;
-      return step.scoring.wrong;
+    case 'infinity_range': {
+      if (userData.isInfinity) return step.scoring.full;
+      return 0;
     }
 
     case 'choose_2_of_4': {
@@ -1118,6 +1464,85 @@ function evaluateStep(step, userData) {
   }
 }
 
+function showLowValueOverlay() {
+  const overlay = ensureLowValueOverlay();
+  overlay.hidden = false;
+  document.body.classList.add('overlay-open');
+}
+
+function hideLowValueOverlay() {
+  const overlay = document.getElementById('lowValueOverlay');
+  if (!overlay) return;
+
+  overlay.hidden = true;
+  document.body.classList.remove('overlay-open');
+}
+
+function ensureLowValueOverlay() {
+  let overlay = document.getElementById('lowValueOverlay');
+  if (overlay) return overlay;
+
+  overlay = document.createElement('div');
+  overlay.id = 'lowValueOverlay';
+  overlay.className = 'low-overlay';
+  overlay.hidden = true;
+  overlay.innerHTML = `
+    <div class="low-overlay-card" role="dialog" aria-modal="true" aria-labelledby="lowOverlayTitle">
+      <h3 id="lowOverlayTitle">А почему так мало? Нет, подумай ещё раз</h3>
+      <button type="button" class="btn btn-primary" data-action="close-low-overlay">Окей</button>
+    </div>
+  `;
+
+  overlay.addEventListener('click', (event) => {
+    const closeBtn = event.target.closest('[data-action=\"close-low-overlay\"]');
+    if (closeBtn) {
+      hideLowValueOverlay();
+      return;
+    }
+
+    if (event.target === overlay) {
+      hideLowValueOverlay();
+    }
+  });
+
+  document.body.appendChild(overlay);
+  return overlay;
+}
+
+function launchConfetti() {
+  const layer = document.createElement('div');
+  layer.className = 'confetti-layer';
+
+  const colors = ['#ffd37b', '#ff9f7e', '#7ce3ff', '#9cf3bf', '#ffffff'];
+  const count = 42;
+
+  for (let i = 0; i < count; i += 1) {
+    const piece = document.createElement('span');
+    piece.className = 'confetti-piece';
+
+    const sideLeft = i % 2 === 0;
+    const edgeOffset = randomInt(0, 20);
+    const spread = randomInt(0, 35);
+    const delay = Math.random() * 0.5;
+    const duration = 1.1 + Math.random() * 1;
+    const size = 6 + Math.random() * 7;
+    const rotate = randomInt(0, 360);
+
+    piece.style.background = colors[randomInt(0, colors.length - 1)];
+    piece.style.width = `${size}px`;
+    piece.style.height = `${size * 0.7}px`;
+    piece.style.left = sideLeft ? `${edgeOffset + spread}%` : `${100 - edgeOffset - spread}%`;
+    piece.style.animationDelay = `${delay}s`;
+    piece.style.animationDuration = `${duration}s`;
+    piece.style.transform = `rotate(${rotate}deg)`;
+
+    layer.appendChild(piece);
+  }
+
+  document.body.appendChild(layer);
+  window.setTimeout(() => layer.remove(), 2200);
+}
+
 function resetQuest() {
   const approved = window.confirm('Сбросить квест и удалить прогресс?');
   if (!approved) return;
@@ -1127,7 +1552,14 @@ function resetQuest() {
     memoryTimeout = null;
   }
 
+  if (infinityAdvanceTimeout) {
+    clearTimeout(infinityAdvanceTimeout);
+    infinityAdvanceTimeout = null;
+  }
+
+  hideLowValueOverlay();
   localStorage.removeItem(STORAGE_KEY);
+
   state = createInitialState();
   saveState();
   render(false);
@@ -1157,12 +1589,8 @@ function swapStage(newHtml, animated) {
   );
 }
 
-function currentStep() {
-  return steps[state.currentStep];
-}
-
-function currentStepState() {
-  return state.stepStates[state.currentStep];
+function screenToTaskIndex(screen) {
+  return screen - 1;
 }
 
 function totalScore() {
@@ -1174,13 +1602,20 @@ function normalizeScore(value) {
   return SCORE_SET.includes(score) ? score : 0;
 }
 
-function shuffledIndices(length) {
-  const base = Array.from({ length }, (_, i) => i);
-  const result = shuffle(base);
-  if (arraysEqual(result, base)) {
-    result.reverse();
-  }
-  return result;
+function pointInRect(x, y, rect) {
+  return x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h;
+}
+
+function pointRectDistance(x, y, rect) {
+  const dx = Math.max(rect.x - x, 0, x - (rect.x + rect.w));
+  const dy = Math.max(rect.y - y, 0, y - (rect.y + rect.h));
+  return Math.hypot(dx, dy);
+}
+
+function moveInArray(array, from, to) {
+  if (from === to) return;
+  const [item] = array.splice(from, 1);
+  array.splice(to, 0, item);
 }
 
 function countPositionMatches(left, right) {
@@ -1192,19 +1627,11 @@ function countPositionMatches(left, right) {
   return count;
 }
 
-function insideRect(x, y, rect, expand) {
-  const left = rect.x - expand;
-  const top = rect.y - expand;
-  const right = rect.x + rect.w + expand;
-  const bottom = rect.y + rect.h + expand;
-  return x >= left && x <= right && y >= top && y <= bottom;
-}
-
-function moveInArray(array, from, to) {
-  if (from === to) return;
-  const copy = array;
-  const [item] = copy.splice(from, 1);
-  copy.splice(to, 0, item);
+function shuffledIndices(length) {
+  const base = Array.from({ length }, (_, i) => i);
+  const result = shuffle(base);
+  if (arraysEqual(base, result)) result.reverse();
+  return result;
 }
 
 function normalizeText(value) {
@@ -1213,10 +1640,6 @@ function normalizeText(value) {
     .toLowerCase()
     .replace(/ё/g, 'е')
     .replace(/\s+/g, ' ');
-}
-
-function formatCode(value) {
-  return new Intl.NumberFormat('ru-RU').format(value);
 }
 
 function shuffle(array) {
@@ -1239,9 +1662,7 @@ function arraysEqual(a, b) {
 function uniqueInts(values, min, max) {
   const unique = new Set();
   values.forEach((value) => {
-    if (Number.isInteger(value) && value >= min && value <= max) {
-      unique.add(value);
-    }
+    if (Number.isInteger(value) && value >= min && value <= max) unique.add(value);
   });
   return [...unique];
 }
@@ -1252,6 +1673,10 @@ function clamp(value, min, max) {
 
 function clampInt(value, min, max) {
   return Math.min(max, Math.max(min, Math.trunc(Number(value) || 0)));
+}
+
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function announce(text) {
