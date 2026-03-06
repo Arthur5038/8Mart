@@ -77,8 +77,8 @@ const steps = [
       label: 'Напиши всё, что хочешь:',
       image: 'img/img4.jpeg',
       successImage: 'img/img4:5.jpg',
-      mediaTitle: 'Любой ответ Алины засчитывается автоматически',
-      mediaSubtitle: 'Здесь у Артура нет права спорить с такой красотой'
+      mediaTitle: 'Здесь у Артура нет права спорить с такой красотой',
+      mediaSubtitle: ''
     }
   },
   {
@@ -214,7 +214,7 @@ const steps = [
     },
     uiOptions: {
       image: 'img/img8.jpeg',
-      mediaTitle: 'Наш момент',
+      mediaTitle: '',
       mediaSubtitle: 'Один из тех кадров, на которые хочется смотреть чуть дольше обычного.',
       items: [
         'Мы познакомились',
