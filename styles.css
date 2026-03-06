@@ -213,6 +213,48 @@ p {
   font-size: 0.92rem;
 }
 
+.media-figure {
+  margin: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.08);
+  display: grid;
+  gap: 0;
+}
+
+.media-photo-full {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 8px;
+}
+
+.media-grid-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 160px;
+  object-fit: cover;
+  border-radius: calc(var(--radius-sm) + 2px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.media-caption {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  background:
+    linear-gradient(180deg, rgba(10, 24, 58, 0.2), rgba(10, 24, 58, 0.55)),
+    linear-gradient(90deg, rgba(255, 211, 123, 0.12), rgba(124, 223, 255, 0.08));
+}
+
 .task-card {
   border-radius: var(--radius-md);
   border: 1px solid rgba(255, 255, 255, 0.22);
@@ -323,20 +365,82 @@ p {
   text-align: left;
 }
 
+.pick-card-with-media {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  grid-column: 1 / -1;
+}
+
 .pick-card.active {
   border-color: rgba(255, 211, 123, 0.92);
   background: rgba(255, 211, 123, 0.22);
+}
+
+.pick-preview {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pick-preview-media {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(70vh, 560px);
+  aspect-ratio: auto;
+  object-fit: contain;
+  background: rgba(7, 18, 43, 0.9);
+}
+
+.pick-preview-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.pick-preview-audio {
+  display: none;
+}
+
+.pick-preview-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 8px;
+}
+
+.pick-preview-gallery-item {
+  border-radius: calc(var(--radius-sm) - 2px);
+  min-height: 180px;
+  max-height: none;
+}
+
+.pick-preview-badge {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  border-radius: 999px;
+  padding: 4px 9px;
+  background: rgba(7, 18, 43, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: var(--text-main);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
 }
 
 .hotspot-box {
   border-radius: var(--radius-md);
   border: 1px solid rgba(255, 255, 255, 0.3);
   min-height: 220px;
-  padding: 12px;
+  padding: 0;
   position: relative;
   background:
     linear-gradient(130deg, rgba(255, 211, 123, 0.24), rgba(255, 159, 126, 0.22), rgba(124, 223, 255, 0.2));
   cursor: crosshair;
+  overflow: hidden;
 }
 
 .hotspot-marker {
@@ -350,9 +454,30 @@ p {
   pointer-events: none;
 }
 
+.hotspot-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.hotspot-flash {
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: rgba(255, 127, 151, 0.18);
+  padding: 10px 12px;
+  color: var(--text-main);
+}
+
 .intro-card {
   min-height: 420px;
   align-content: center;
+}
+
+.intro-raw-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  justify-self: center;
 }
 
 .hotspot-grid {
@@ -456,11 +581,31 @@ p {
   color: var(--text-main);
   font-weight: 700;
   cursor: pointer;
+  overflow: hidden;
+  padding: 0;
 }
 
 .memory-card.show,
 .memory-card.done {
   background: rgba(149, 255, 209, 0.25);
+}
+
+.memory-card-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 112px;
+  object-fit: cover;
+}
+
+.memory-card-back {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 112px;
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: rgba(247, 251, 255, 0.9);
 }
 
 .final-table {
@@ -656,6 +801,10 @@ body.overlay-open {
 
   .pick-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .media-grid-photo {
+    min-height: 120px;
   }
 }
 

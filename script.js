@@ -8,28 +8,36 @@ const steps = [
   {
     id: 'hotspot_secret_kiss',
     type: 'hotspot',
-    title: 'Шаг 1. Карта к поцелую (ультра секрет)',
-    text: 'Алина, представь: это фото нас, которое я еще не добавил. Тыкни в место, где я обычно зависаю взглядом перед тем, как украсть поцелуй.',
-    hint: 'Немного правее центра и чуть выше. Там стартует миссия «влюбленный хищник».',
+    title: 'Шаг 1. Куда я залипаю первым делом',
+    text: 'Нажми на ту часть тебя, на которую я обычно смотрю первой. Я стараюсь быть приличным, но лицо все равно побеждает.',
+    hint: 'Правильный ответ здесь несложный: лицо целиком.',
     scoring: { full: 10, partial: 5, wrong: 0 },
     correct: {
-      correctRect: { x: 56, y: 32, w: 20, h: 24 }
+      correctRect: { x: 31, y: 8, w: 38, h: 31 }
     },
     partialRules: {
-      nearDistance: 8
+      nearDistance: 6,
+      specialRects: [
+        {
+          x: 34,
+          y: 43,
+          w: 31,
+          h: 18,
+          message: 'Ну это ж что, ну нет'
+        }
+      ]
     },
     uiOptions: {
-      placeholderTitle: 'Секретная зона на фото',
-      placeholderSubtitle: 'Фото добавим позже',
-      helper: 'Нажми в любую точку карточки. Маркер зафиксирует выбор.'
+      image: 'img/img2.jpeg',
+      helper: 'Просто нажми на фото. Маркер зафиксирует выбор.'
     }
   },
   {
     id: 'months_together',
     type: 'number',
-    title: 'Шаг 2. Арифметика любви',
-    text: 'Сколько месяцев мы вместе на 8 марта 2026, если август считается?',
-    hint: '32 — это не номер квартиры, а правильный ответ.',
+    title: 'Шаг 2. Отдел особой романтики',
+    text: 'На этом фото мы как будто два копа, которые приехали арестовывать всех за чрезмерную некрасивость. А теперь к делу: сколько месяцев мы вместе на 8 марта 2026, если август считается?',
+    hint: 'Ответ 32. Никакой коррупции, только точный учет наших отношений.',
     scoring: { full: 10, partial: 5, wrong: 0 },
     correct: {
       value: 32
@@ -39,17 +47,21 @@ const steps = [
       max: 33
     },
     uiOptions: {
-      label: 'Введи количество месяцев:'
+      label: 'Сколько месяцев в нашем деле?',
+      image: 'img/img3.jpg',
+      mediaTitle: 'Управление любви и беспорядочных мурашек',
+      mediaSubtitle: 'Лейтенант Артур и лейтенант Алина на службе у романтики'
     }
   },
   {
     id: 'code_phrase',
     type: 'text',
-    title: 'Шаг 3. Наш шифр от скуки',
-    text: 'Введи наше кодовое словечко/фразу. После него у меня лицо счастливого идиота.',
-    hint: 'Ключевой корень: булоч.',
+    title: 'Шаг 3. Всё, что скажет Алина, уже правильно',
+    text: 'Тут у тебя режим полного иммунитета от ошибок. На этом фото ты слишком прекрасна, чтобы я спорил с любым твоим ответом.',
+    hint: 'Напиши всё, что хочется. Я здесь заранее согласен с каждым словом.',
     scoring: { full: 10, partial: 5, wrong: 0 },
     correct: {
+      anyNonEmpty: true,
       answers: [
         'моя булочка',
         'булочка',
@@ -62,7 +74,11 @@ const steps = [
       roots: ['булоч', 'кориц', 'сладк']
     },
     uiOptions: {
-      label: 'Введи кодовую фразу:'
+      label: 'Напиши всё, что хочешь:',
+      image: 'img/img4.jpeg',
+      successImage: 'img/img4:5.jpg',
+      mediaTitle: 'Любой ответ Алины засчитывается автоматически',
+      mediaSubtitle: 'Здесь у Артура нет права спорить с такой красотой'
     }
   },
   {
@@ -79,6 +95,14 @@ const steps = [
       partialValue: 'eyes'
     },
     uiOptions: {
+      gallery: [
+        'img/img5:1.jpeg',
+        'img/img5:2.jpeg',
+        'img/img5:3.jpeg',
+        'img/img5:4.jpeg'
+      ],
+      mediaTitle: 'Досье на самую любимую подозреваемую',
+      mediaSubtitle: 'Четыре улики, подтверждающие, что у Артура нет шансов не влюбляться еще сильнее',
       options: [
         { value: 'eyes', label: 'Твои глаза (и как они смотрят, когда я туплю)' },
         { value: 'chaos', label: 'Твою способность быть хаосом в пижаме' },
@@ -100,6 +124,9 @@ const steps = [
       minCorrectPositions: 5
     },
     uiOptions: {
+      image: 'img/img6.jpeg',
+      mediaTitle: 'Кадр, который слишком хорош, чтобы оставить его без отдельной страницы',
+      mediaSubtitle: 'Сначала полюбоваться, потом собрать фразу',
       words: ['Алина,', 'ты', 'моя', 'любимая', 'причина', 'улыбки', 'и мурашек'],
       helper: 'Перетаскивай слова прямо в строке. Без слотов, только хаос и романтика.'
     }
@@ -108,30 +135,76 @@ const steps = [
     id: 'select_two_cards',
     type: 'select_2_of_4',
     title: 'Шаг 6. Выбери 2 идеальных кадра свидания',
-    text: 'Фото пока не готовы, поэтому заглушки. Отметь два кадра, которые я бы выбрал.',
-    hint: 'Где плед и кино — там я и мое счастливое лицо.',
+    text: 'Отметь два кадра, которые я бы выбрал для нашего идеального свидания.',
+    hint: 'Здесь можно смело выбирать сердцем. В этом шаге любой твой выбор для меня уже правильный.',
     scoring: { full: 10, partial: 5, wrong: 0 },
     correct: {
-      ids: ['candles', 'movie']
+      ids: ['candles', 'movie'],
+      anyPairAccepted: true
     },
     partialRules: {
       requiredCount: 2
     },
     uiOptions: {
+      hideMedia: true,
       cards: [
-        { id: 'candles', title: 'Кадр A: свечи + плед', subtitle: 'Фото добавим позже' },
-        { id: 'gym', title: 'Кадр B: я в спортзале и грущу', subtitle: 'Фото добавим позже' },
-        { id: 'movie', title: 'Кадр C: кино + ты у меня на плече', subtitle: 'Фото добавим позже' },
-        { id: 'tax', title: 'Кадр D: я плачу налоги', subtitle: 'Фото добавим позже' }
+        {
+          id: 'candles',
+          title: 'Кадр A: совместная поездка на море',
+          subtitle: 'Наведи курсор или коснись карточки, и заиграет наш морской момент',
+          media: {
+            type: 'gallery',
+            sources: ['img/img7:1.jpg', 'img/img7:2.jpg']
+          },
+          preview: {
+            type: 'audio',
+            src: 'img/mus7:1.mp3'
+          }
+        },
+        {
+          id: 'gym',
+          title: 'Кадр B: поделиться и покушать бутерброды',
+          subtitle: 'Наведи курсор или коснись карточки, и включится этот уютный момент',
+          media: {
+            type: 'image',
+            src: 'img/img7:4.jpeg'
+          },
+          preview: {
+            type: 'audio',
+            src: 'img/mus7:4.mp3'
+          }
+        },
+        {
+          id: 'movie',
+          title: 'Кадр C: кино + ты у меня на плече',
+          subtitle: 'Наведи курсор или коснись карточки, и момент оживёт',
+          media: {
+            type: 'video',
+            src: 'img/vid7.mp4'
+          }
+        },
+        {
+          id: 'tax',
+          title: 'Кадр D: совместная прогулка по городу',
+          subtitle: 'Наведи курсор или коснись карточки, и зазвучит прогулка по городу',
+          media: {
+            type: 'image',
+            src: 'img/img7.jpg'
+          },
+          preview: {
+            type: 'audio',
+            src: 'img/mus7:3.mp3'
+          }
+        }
       ]
     }
   },
   {
     id: 'timeline_reorder',
     type: 'reorder_4',
-    title: 'Шаг 7. Хронология наших мемов',
-    text: 'Расположи 4 события по времени.',
-    hint: 'Знакомство -> мем -> свидание -> режим «мы странные и счастливые».',
+    title: 'Шаг 7. Наша маленькая хронология',
+    text: 'Разложи эти четыре момента в том порядке, в котором наша история становилась всё теплее, ближе и любимее.',
+    hint: 'Сначала знакомство, потом первая общая дурацкая штука, дальше свидание, а потом уже полноценный режим «мы».',
     scoring: { full: 10, partial: 5, wrong: 0 },
     correct: {
       order: [0, 1, 2, 3]
@@ -140,20 +213,23 @@ const steps = [
       minCorrectPositions: 2
     },
     uiOptions: {
+      image: 'img/img8.jpeg',
+      mediaTitle: 'Наш момент',
+      mediaSubtitle: 'Один из тех кадров, на которые хочется смотреть чуть дольше обычного.',
       items: [
         'Мы познакомились',
-        'Первый общий мем уровня «что это было»',
-        'Первое свидание',
-        'Режим «моя любимая женщина + мой лучший друг в одном лице»'
+        'Появилась первая общая внутренняя шутка',
+        'Случилось первое свидание',
+        'Наступил режим «ты мой любимый человек, и это уже без вариантов»'
       ]
     }
   },
   {
     id: 'memory_pairs',
     type: 'memory_6',
-    title: 'Шаг 8. Память сердца (и нервов)',
-    text: 'Открой все пары из 6 карточек.',
-    hint: 'Запоминай не только символ, но и где он лежал после фейла.',
+    title: 'Шаг 8. Найди наши пары',
+    text: 'Открой одинаковые кадры и собери все три пары. Пусть память сейчас работает так же хорошо, как моё желание тебя обнимать.',
+    hint: 'Запоминай не только сам кадр, но и его место. Тогда этот шаг закончится быстро и красиво.',
     scoring: { full: 10, partial: 5, wrong: 0 },
     correct: {
       totalPairs: 3
@@ -163,10 +239,11 @@ const steps = [
       partialMinPairs: 2
     },
     uiOptions: {
+      hideMedia: true,
       pairs: [
-        { id: 'hug', label: 'Объятия' },
-        { id: 'kiss', label: 'Поцелуй' },
-        { id: 'laugh', label: 'Смех' }
+        { id: 'pair1', label: 'Кадр 1', image: 'img/img9:1.jpg' },
+        { id: 'pair2', label: 'Кадр 2', image: 'img/img9:2.jpeg' },
+        { id: 'pair3', label: 'Кадр 3', image: 'img/img9:3.jpeg' }
       ]
     }
   },
@@ -182,6 +259,9 @@ const steps = [
     },
     partialRules: {},
     uiOptions: {
+      image: 'img/img10.jpg',
+      mediaTitle: 'Наш кадр',
+      mediaSubtitle: 'Тот самый кадр, после которого вопрос про бесконечность звучит особенно честно.',
       min: 0,
       max: 100,
       start: 50,
@@ -202,6 +282,9 @@ const steps = [
       requiredCount: 2
     },
     uiOptions: {
+      image: 'img/img7:1.jpg',
+      mediaTitle: 'Наш кадр',
+      mediaSubtitle: 'Пусть этот кадр встречает последний вопрос так же нежно, как мне хотелось.',
       options: [
         { id: 'soft', text: 'С тобой я становлюсь мягче и добрее, даже когда ворчу' },
         { id: 'night', text: 'Я ложусь спать строго в 22:00 и никогда не залипаю в чат' },
@@ -230,6 +313,8 @@ let dragPayload = null;
 let phrasePointerDrag = null;
 let infinityPointerDrag = null;
 let lowOverlayReturnFocusEl = null;
+let interactiveMediaCleanup = [];
+let hotspotFlashTimeout = null;
 
 let state = loadState() || createInitialState();
 
@@ -297,7 +382,7 @@ function createInitialState() {
 function defaultUserData(step) {
   switch (step.type) {
     case 'hotspot':
-      return { clickX: null, clickY: null };
+      return { clickX: null, clickY: null, flashMessage: '' };
     case 'number':
       return { value: '' };
     case 'text':
@@ -400,7 +485,8 @@ function sanitizeUserData(step, rawData) {
     case 'hotspot':
       return {
         clickX: Number.isFinite(data.clickX) ? clamp(data.clickX, 0, 100) : null,
-        clickY: Number.isFinite(data.clickY) ? clamp(data.clickY, 0, 100) : null
+        clickY: Number.isFinite(data.clickY) ? clamp(data.clickY, 0, 100) : null,
+        flashMessage: typeof data.flashMessage === 'string' ? data.flashMessage : ''
       };
 
     case 'number':
@@ -441,6 +527,9 @@ function sanitizeUserData(step, rawData) {
 
     case 'memory_6': {
       if (!Array.isArray(data.deck) || data.deck.length !== 6) return base;
+      const allowedIds = new Set(step.uiOptions.pairs.map((pair) => pair.id));
+      const hasInvalidDeck = data.deck.some((id) => typeof id !== 'string' || !allowedIds.has(id));
+      if (hasInvalidDeck) return base;
 
       return {
         deck: data.deck,
@@ -491,7 +580,7 @@ function render(animated) {
   if (state.completed) {
     ui.stepLabel.textContent = 'Финал';
   } else if (state.currentScreen === 0) {
-    ui.stepLabel.textContent = 'Приветствие (Шаг 0/10)';
+    ui.stepLabel.textContent = '';
   } else {
     ui.stepLabel.textContent = `Шаг ${state.currentScreen}/10`;
   }
@@ -528,11 +617,8 @@ function renderIntro() {
     <article class="glass step-card intro-card">
       <h2 class="step-title">Алина, с 8 марта!</h2>
       <p class="step-text">Я подготовил для тебя маленький квест-тест. Тут будет мило, странно, местами дерзко, но всё по любви.</p>
-      <div class="media-placeholder">
-        <div class="media-title">Артур запускает режим романтика</div>
-        <p class="caption">10 заданий, где ты официально самая лучшая.</p>
-        <span class="media-tag">Фото добавим позже</span>
-      </div>
+      <p class="step-text">Я знаю, возможно, это не совсем то, чего ты хотела, но я уверен, игра стоит свеч. И возможно, сейчас у тебя точно такое же лицо, как на этой картинке.</p>
+      <img class="intro-raw-image" src="img/img1.jpeg" alt="Шутливая картинка для вступления" />
       <div class="controls">
         <button class="btn btn-primary" type="button" data-action="start-quest">Поехали</button>
         <button class="btn btn-danger" type="button" data-action="reset">Сбросить квест</button>
@@ -546,7 +632,7 @@ function renderTask(step, stepState, taskIndex) {
     ? 'Пока проверки не было. Нажми «Проверить/Засчитать».'
     : `Последняя проверка: <strong>${stepState.lastScore}</strong>, лучший результат: <strong>${stepState.bestScore}</strong>.`;
 
-  const media = renderMediaPlaceholder(step);
+  const media = step.type === 'hotspot' || step.uiOptions.hideMedia ? '' : renderMediaPlaceholder(step, stepState);
 
   return `
     <article class="glass step-card" data-step-id="${escapeHtml(step.id)}">
@@ -572,15 +658,58 @@ function renderTask(step, stepState, taskIndex) {
   `;
 }
 
-function renderMediaPlaceholder(step) {
-  const title = step.uiOptions.placeholderTitle || 'Карточка-заглушка';
-  const subtitle = step.uiOptions.placeholderSubtitle || 'Фото добавим позже';
+function renderMediaPlaceholder(step, stepState) {
+  const imageSrc = step.uiOptions.successImage && stepState.bestScore > 0
+    ? step.uiOptions.successImage
+    : step.uiOptions.image;
+  const gallery = Array.isArray(step.uiOptions.gallery) ? step.uiOptions.gallery : null;
+
+  if (imageSrc) {
+    const mediaTitle = step.uiOptions.mediaTitle || '';
+    const mediaSubtitle = step.uiOptions.mediaSubtitle || '';
+
+    return `
+      <figure class="media-figure">
+        <img class="media-photo-full" src="${escapeHtml(imageSrc)}" alt="${escapeHtml(step.title)}" />
+        ${mediaTitle || mediaSubtitle ? `
+          <figcaption class="media-caption">
+            ${mediaTitle ? `<span class="media-tag">${escapeHtml(mediaTitle)}</span>` : ''}
+            ${mediaSubtitle ? `<p class="caption">${escapeHtml(mediaSubtitle)}</p>` : ''}
+          </figcaption>
+        ` : ''}
+      </figure>
+    `;
+  }
+
+  if (gallery && gallery.length > 0) {
+    const mediaTitle = step.uiOptions.mediaTitle || '';
+    const mediaSubtitle = step.uiOptions.mediaSubtitle || '';
+
+    return `
+      <figure class="media-figure">
+        <div class="media-grid">
+          ${gallery
+            .map((src, index) => `<img class="media-grid-photo" src="${escapeHtml(src)}" alt="${escapeHtml(`${step.title} ${index + 1}`)}" />`)
+            .join('')}
+        </div>
+        ${mediaTitle || mediaSubtitle ? `
+          <figcaption class="media-caption">
+            ${mediaTitle ? `<span class="media-tag">${escapeHtml(mediaTitle)}</span>` : ''}
+            ${mediaSubtitle ? `<p class="caption">${escapeHtml(mediaSubtitle)}</p>` : ''}
+          </figcaption>
+        ` : ''}
+      </figure>
+    `;
+  }
+
+  const title = step.uiOptions.placeholderTitle || 'Наш следующий кадр';
+  const subtitle = step.uiOptions.placeholderSubtitle || 'Здесь будет ещё один момент, который захочется пересматривать.';
 
   return `
     <div class="media-placeholder">
       <div class="media-title">${escapeHtml(title)}</div>
       <p class="caption">${escapeHtml(subtitle)}</p>
-      <span class="media-tag">Фото добавим позже</span>
+      <span class="media-tag">Скоро здесь будет ещё один наш момент</span>
     </div>
   `;
 }
@@ -597,9 +726,10 @@ function renderTaskByType(step, stepState, taskIndex) {
       return `
         <div class="hotspot-grid">
           <div class="hotspot-box" data-action="hotspot-click" tabindex="0" aria-label="Область выбора точки">
-            <div class="caption">Нажми в любую точку карточки.</div>
+            <img class="hotspot-photo" src="${escapeHtml(step.uiOptions.image)}" alt="Фото для выбора области" />
             ${marker}
           </div>
+          ${data.flashMessage ? `<div class="hotspot-flash" role="status" aria-live="polite">${escapeHtml(data.flashMessage)}</div>` : ''}
           <p class="caption">${data.clickX === null ? 'Точка пока не выбрана.' : `Выбрано: ${Math.round(data.clickX)} / ${Math.round(data.clickY)}`}</p>
         </div>
       `;
@@ -621,13 +751,13 @@ function renderTaskByType(step, stepState, taskIndex) {
       return `
         <div class="choice-group" role="radiogroup" aria-label="Выбор из трех вариантов">
           ${step.uiOptions.options
-            .map((option) => `
+          .map((option) => `
               <label class="choice-option">
                 <input type="radio" name="choice3" value="${escapeHtml(option.value)}" ${data.value === option.value ? 'checked' : ''} />
                 <span>${escapeHtml(option.label)}</span>
               </label>
             `)
-            .join('')}
+          .join('')}
         </div>
       `;
 
@@ -636,7 +766,7 @@ function renderTaskByType(step, stepState, taskIndex) {
         <div class="phrase-wrap" data-phrase-wrap>
           <div class="phrase-line" data-phrase-line>
             ${data.order
-              .map((wordIndex, position) => `
+          .map((wordIndex, position) => `
                 <button
                   type="button"
                   class="phrase-chip"
@@ -646,7 +776,7 @@ function renderTaskByType(step, stepState, taskIndex) {
                   data-word-index="${wordIndex}"
                 >${escapeHtml(step.uiOptions.words[wordIndex])}</button>
               `)
-              .join('')}
+          .join('')}
           </div>
           <p class="caption">${escapeHtml(step.uiOptions.helper)}</p>
         </div>
@@ -657,21 +787,25 @@ function renderTaskByType(step, stepState, taskIndex) {
       return `
         <div class="pick-grid">
           ${step.uiOptions.cards
-            .map((card) => {
-              const active = data.selected.includes(card.id);
-              return `
+          .map((card) => {
+            const active = data.selected.includes(card.id);
+            const hasMedia = Boolean(card.media);
+            const mediaHtml = hasMedia ? renderCardPreview(card) : '';
+            return `
                 <button
                   type="button"
-                  class="pick-card ${active ? 'active' : ''}"
+                  class="pick-card ${active ? 'active' : ''} ${hasMedia ? 'pick-card-with-media' : ''}"
                   data-action="toggle-pick"
                   data-id="${escapeHtml(card.id)}"
+                  ${hasMedia ? `data-preview-card="true" data-preview-id="${escapeHtml(card.id)}"` : ''}
                 >
+                  ${mediaHtml}
                   <strong>${escapeHtml(card.title)}</strong>
                   <p>${escapeHtml(card.subtitle)}</p>
                 </button>
               `;
-            })
-            .join('')}
+          })
+          .join('')}
         </div>
       `;
 
@@ -683,28 +817,40 @@ function renderTaskByType(step, stepState, taskIndex) {
       });
 
     case 'memory_6': {
-      const pairMap = new Map(step.uiOptions.pairs.map((pair) => [pair.id, pair.label]));
+      const pairMap = new Map(step.uiOptions.pairs.map((pair) => [pair.id, pair]));
       const opened = new Set(data.revealed);
       const matched = new Set(data.matched);
 
       return `
         <div class="memory-grid">
           ${data.deck
-            .map((pairId, index) => {
-              const show = opened.has(index) || matched.has(index);
-              const doneClass = matched.has(index) ? 'done' : show ? 'show' : '';
-              const text = show ? pairMap.get(pairId) : '?';
+          .map((pairId, index) => {
+            const show = opened.has(index) || matched.has(index);
+            const doneClass = matched.has(index) ? 'done' : show ? 'show' : '';
+            const pair = pairMap.get(pairId);
+            const content = show
+              ? pair
+                ? `
+                <img
+                  class="memory-card-image"
+                  src="${escapeHtml(pair.image)}"
+                  alt="${escapeHtml(pair.label)}"
+                  loading="lazy"
+                />
+              `
+                : '<span class="memory-card-back">?</span>'
+              : '<span class="memory-card-back">?</span>';
 
-              return `
+            return `
                 <button
                   type="button"
                   class="memory-card ${doneClass}"
                   data-action="memory-open"
                   data-index="${index}"
-                >${escapeHtml(text)}</button>
+                >${content}</button>
               `;
-            })
-            .join('')}
+          })
+          .join('')}
         </div>
         <p class="caption">Промахи: ${data.misses}. Открыто пар: ${Math.floor(data.matched.length / 2)}/3.</p>
       `;
@@ -730,9 +876,9 @@ function renderTaskByType(step, stepState, taskIndex) {
       return `
         <div class="pick-grid">
           ${step.uiOptions.options
-            .map((option) => {
-              const active = data.selected.includes(option.id);
-              return `
+          .map((option) => {
+            const active = data.selected.includes(option.id);
+            return `
                 <button
                   type="button"
                   class="pick-card ${active ? 'active' : ''}"
@@ -742,8 +888,8 @@ function renderTaskByType(step, stepState, taskIndex) {
                   ${escapeHtml(option.text)}
                 </button>
               `;
-            })
-            .join('')}
+          })
+          .join('')}
         </div>
       `;
 
@@ -756,7 +902,7 @@ function renderSortableList({ type, order, labels }) {
   return `
     <ul class="sort-list" data-sort-type="${type}">
       ${order
-        .map((itemIndex, position) => `
+      .map((itemIndex, position) => `
           <li class="sort-item" draggable="true" data-action="sort-item" data-sort-type="${type}" data-position="${position}">
             <span>${escapeHtml(labels[itemIndex])}</span>
             <span class="sort-controls">
@@ -765,9 +911,76 @@ function renderSortableList({ type, order, labels }) {
             </span>
           </li>
         `)
-        .join('')}
+      .join('')}
     </ul>
   `;
+}
+
+function renderCardPreview(card) {
+  if (!card.media) return '';
+  const previewAudio = card.preview && card.preview.type === 'audio'
+    ? `
+      <audio
+        class="pick-preview-playable pick-preview-audio"
+        data-preview-id="${escapeHtml(card.id)}"
+        preload="auto"
+      >
+        <source src="${escapeHtml(card.preview.src)}" type="audio/mpeg" />
+      </audio>
+    `
+    : '';
+
+  if (card.media.type === 'video') {
+    return `
+      <div class="pick-preview" aria-hidden="true">
+        <video
+          class="pick-preview-media pick-preview-playable"
+          data-preview-id="${escapeHtml(card.id)}"
+          loop
+          playsinline
+          preload="auto"
+        >
+          <source src="${escapeHtml(card.media.src)}" type="video/mp4" />
+        </video>
+        <span class="pick-preview-badge">Наведи курсор или коснись карточки</span>
+        ${previewAudio}
+      </div>
+    `;
+  }
+
+  if (card.media.type === 'image') {
+    return `
+      <div class="pick-preview" aria-hidden="true">
+        <img
+          class="pick-preview-media pick-preview-image"
+          src="${escapeHtml(card.media.src)}"
+          alt=""
+          loading="lazy"
+        />
+        ${previewAudio}
+      </div>
+    `;
+  }
+
+  if (card.media.type === 'gallery') {
+    return `
+      <div class="pick-preview pick-preview-gallery" aria-hidden="true">
+        ${card.media.sources
+          .map((src, index) => `
+            <img
+              class="pick-preview-media pick-preview-image pick-preview-gallery-item"
+              src="${escapeHtml(src)}"
+              alt=""
+              loading="${index === 0 ? 'eager' : 'lazy'}"
+            />
+          `)
+          .join('')}
+        ${previewAudio}
+      </div>
+    `;
+  }
+
+  return '';
 }
 
 function renderFinal() {
@@ -828,6 +1041,15 @@ function onStageClick(event) {
   const step = steps[taskIndex];
   const stepState = state.stepStates[taskIndex];
 
+  if (step.type === 'select_2_of_4') {
+    const previewCard = target.closest('[data-preview-card="true"]');
+    if (previewCard) {
+      startPreviewPlayback(previewCard.dataset.previewId);
+    } else {
+      stopAllCardPreviews();
+    }
+  }
+
   switch (action) {
     case 'check': {
       if (step.type === 'infinity_range' && !stepState.userData.isInfinity) {
@@ -856,6 +1078,7 @@ function onStageClick(event) {
       const clickY = ((event.clientY - rect.top) / rect.height) * 100;
       stepState.userData.clickX = clamp(clickX, 0, 100);
       stepState.userData.clickY = clamp(clickY, 0, 100);
+      maybeFlashHotspotMessage(step, stepState);
       saveState();
       render(false);
       break;
@@ -975,6 +1198,15 @@ function onStagePointerDown(event) {
 
   const taskIndex = screenToTaskIndex(state.currentScreen);
   const step = steps[taskIndex];
+
+  if (step.type === 'select_2_of_4') {
+    const previewCard = event.target.closest('[data-preview-card="true"]');
+    if (previewCard) {
+      startPreviewPlayback(previewCard.dataset.previewId, { fromUserGesture: true });
+    } else {
+      stopAllCardPreviews();
+    }
+  }
 
   const phraseChip = event.target.closest('[data-action="phrase-chip"]');
   if (phraseChip && step.type === 'phrase_drag') {
@@ -1370,6 +1602,108 @@ function openMemoryCard(stepState, index) {
   }, 700);
 }
 
+function startPreviewPlayback(previewId, options = {}) {
+  if (!previewId) return;
+
+  stopAllCardPreviews(previewId);
+  const media = ui.stage.querySelector(`.pick-preview-playable[data-preview-id="${CSS.escape(previewId)}"]`);
+  if (!(media instanceof HTMLMediaElement)) return;
+
+  if (!media.paused && !media.ended && media.currentTime > 0) return;
+
+  if (media instanceof HTMLVideoElement) {
+    media.muted = false;
+    media.volume = 1;
+    media.defaultMuted = false;
+  } else {
+    media.volume = 1;
+  }
+  media.currentTime = 0;
+  const playPromise = media.play();
+  if (playPromise && typeof playPromise.catch === 'function') {
+    playPromise.catch(() => {
+      if (options.fromUserGesture || !(media instanceof HTMLVideoElement)) return;
+
+      media.muted = true;
+      media.defaultMuted = true;
+      const mutedPlayPromise = media.play();
+      if (mutedPlayPromise && typeof mutedPlayPromise.catch === 'function') {
+        mutedPlayPromise.catch(() => {});
+      }
+    });
+  }
+}
+
+function stopAllCardPreviews(exceptId = '') {
+  const mediaList = ui.stage.querySelectorAll('.pick-preview-playable');
+  mediaList.forEach((media) => {
+    if (!(media instanceof HTMLMediaElement)) return;
+    if (exceptId && media.dataset.previewId === exceptId) return;
+
+    media.pause();
+    media.currentTime = 0;
+  });
+}
+
+function wireInteractiveMedia() {
+  interactiveMediaCleanup.forEach((cleanup) => cleanup());
+  interactiveMediaCleanup = [];
+
+  const taskIndex = screenToTaskIndex(state.currentScreen);
+  if (state.completed || taskIndex < 0 || !steps[taskIndex] || steps[taskIndex].type !== 'select_2_of_4') {
+    stopAllCardPreviews();
+    return;
+  }
+
+  const previewCards = ui.stage.querySelectorAll('[data-preview-card="true"]');
+  previewCards.forEach((card) => {
+    if (!(card instanceof HTMLElement)) return;
+
+    const previewId = card.dataset.previewId;
+    if (!previewId) return;
+
+    const media = card.querySelector('.pick-preview-playable');
+    if (media instanceof HTMLMediaElement) {
+      media.preload = 'auto';
+      media.load();
+    }
+
+    const onMouseEnter = () => {
+      startPreviewPlayback(previewId);
+    };
+
+    const onMouseMove = () => {
+      startPreviewPlayback(previewId);
+    };
+
+    const onMouseLeave = () => {
+      stopAllCardPreviews();
+    };
+
+    const onFocusIn = () => {
+      startPreviewPlayback(previewId, { fromUserGesture: true });
+    };
+
+    const onFocusOut = () => {
+      stopAllCardPreviews();
+    };
+
+    card.addEventListener('mouseenter', onMouseEnter);
+    card.addEventListener('mousemove', onMouseMove);
+    card.addEventListener('mouseleave', onMouseLeave);
+    card.addEventListener('focusin', onFocusIn);
+    card.addEventListener('focusout', onFocusOut);
+
+    interactiveMediaCleanup.push(() => {
+      card.removeEventListener('mouseenter', onMouseEnter);
+      card.removeEventListener('mousemove', onMouseMove);
+      card.removeEventListener('mouseleave', onMouseLeave);
+      card.removeEventListener('focusin', onFocusIn);
+      card.removeEventListener('focusout', onFocusOut);
+    });
+  });
+}
+
 function evaluateStep(step, userData) {
   switch (step.type) {
     case 'hotspot': {
@@ -1399,6 +1733,8 @@ function evaluateStep(step, userData) {
       const normalized = normalizeText(userData.value);
       if (!normalized) return 0;
 
+      if (step.correct.anyNonEmpty) return step.scoring.full;
+
       const answers = step.correct.answers.map(normalizeText);
       if (answers.includes(normalized)) return step.scoring.full;
 
@@ -1424,6 +1760,7 @@ function evaluateStep(step, userData) {
 
     case 'select_2_of_4': {
       if (userData.selected.length !== step.partialRules.requiredCount) return 0;
+      if (step.correct.anyPairAccepted) return step.scoring.full;
       const matched = userData.selected.filter((id) => step.correct.ids.includes(id)).length;
       if (matched === 2) return step.scoring.full;
       if (matched === 1) return step.scoring.partial;
@@ -1463,6 +1800,39 @@ function evaluateStep(step, userData) {
     default:
       return 0;
   }
+}
+
+function maybeFlashHotspotMessage(step, stepState) {
+  if (!Array.isArray(step.partialRules.specialRects)) return;
+
+  const x = stepState.userData.clickX;
+  const y = stepState.userData.clickY;
+  if (!Number.isFinite(x) || !Number.isFinite(y)) return;
+
+  const hit = step.partialRules.specialRects.find((rect) => pointInRect(x, y, rect));
+  if (!hit || !hit.message) {
+    stepState.userData.flashMessage = '';
+    return;
+  }
+
+  stepState.userData.flashMessage = hit.message;
+
+  if (hotspotFlashTimeout) {
+    clearTimeout(hotspotFlashTimeout);
+  }
+
+  const screenSnapshot = state.currentScreen;
+  hotspotFlashTimeout = window.setTimeout(() => {
+    if (state.completed || state.currentScreen !== screenSnapshot) return;
+
+    const taskIndex = screenToTaskIndex(screenSnapshot);
+    if (taskIndex < 0) return;
+    if (steps[taskIndex].type !== 'hotspot') return;
+
+    state.stepStates[taskIndex].userData.flashMessage = '';
+    saveState();
+    render(false);
+  }, 1000);
 }
 
 function showLowValueOverlay() {
@@ -1579,6 +1949,11 @@ function resetQuest() {
     memoryTimeout = null;
   }
 
+  if (hotspotFlashTimeout) {
+    clearTimeout(hotspotFlashTimeout);
+    hotspotFlashTimeout = null;
+  }
+
   if (infinityAdvanceTimeout) {
     clearTimeout(infinityAdvanceTimeout);
     infinityAdvanceTimeout = null;
@@ -1601,6 +1976,7 @@ function swapStage(newHtml, animated) {
     ui.stage.innerHTML = newHtml;
     const card = ui.stage.firstElementChild;
     if (card) card.classList.add('enter');
+    wireInteractiveMedia();
     return;
   }
 
@@ -1611,6 +1987,7 @@ function swapStage(newHtml, animated) {
       ui.stage.innerHTML = newHtml;
       const card = ui.stage.firstElementChild;
       if (card) card.classList.add('enter');
+      wireInteractiveMedia();
     },
     { once: true }
   );
